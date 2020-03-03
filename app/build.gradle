@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 29
+
+
+    defaultConfig {
+        applicationId "com.gmail.danylooliinyk.android.sorbet"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlinVersion"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+
+    // Compat
+    implementation "androidx.appcompat:appcompat:$versions.appCompat"
+
+    // Kotlin ktx
+    implementation "androidx.core:core-ktx:$versions.ktx"
+    implementation "androidx.fragment:fragment-ktx:1.2.2"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "androidx.room:room-ktx:2.2.4"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation 'com.github.brotoo25:firestore-coroutines:1.0.0'
+
+    // Constraint layout
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
+
+    // Koin
+    implementation "org.koin:koin-androidx-viewmodel:$versions.koin"
+    implementation "org.koin:koin-androidx-scope:$versions.koin"
+
+    // Firebase
+    implementation "com.google.firebase:firebase-analytics:$versions.firebase"
+
+    // Tests
+    testImplementation "junit:junit:$versions.junit"
+    androidTestImplementation "androidx.test.ext:junit:$versions.junitExt"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+}
