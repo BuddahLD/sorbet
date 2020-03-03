@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".chat.ChatControlActivity"
+            android:name="com.gmail.danylooliinyk.android.sorbet.ui.chat.ChatControlActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,19 +1,18 @@
-package com.gmail.danylooliinyk.android.sorbet.chat.chatRoom
+package com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
+import com.gmail.danylooliinyk.android.sorbet.R
 
 /**
- * ChatRoomFragment
+ * ChatRoomListFragment
  */
-class ChatRoomFragment : Fragment() {
+class ChatRoomListFragment : Fragment(R.layout.fragment_chat_room_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {  }
+
     }
 }

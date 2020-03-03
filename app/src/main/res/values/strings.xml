@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Sorbet</string>
+
+    <!-- Bottom navigation menu -->
+    <string name="home">Home</string>
+    <string name="android">Android</string>
+    <string name="camera">Camera</string>
+    <string name="gift">Gift</string>
+    <string name="chat">Chat</string>
+
+    <!-- Toolbar -->
+    <string name="previous_screen_button">Previous screen button</string>
+    <string name="open_menu_button">Open menu button</string>
+    <string name="add_person_button">Add person button</string>
+    <string name="close_button">Close button</string>
+    <string name="search_button">Search button</string>
+    <string name="info_button">Info button</string>
+
 </resources>
