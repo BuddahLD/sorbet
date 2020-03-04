@@ -18,7 +18,6 @@ buildscript {
             googleServices  : '4.3.3',
             firebase        : '17.2.3',
             koin            : '2.1.0-beta-1',
-            room            : '2.2.4',
 
             // Utility
             ktx             : '1.2.0',
