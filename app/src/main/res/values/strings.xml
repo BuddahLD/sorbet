@@ -16,4 +16,7 @@
     <string name="search_button">Search button</string>
     <string name="info_button">Info button</string>
 
+    <!-- Chat room list -->
+    <string name="create_new_chat">Create new chat</string>
+
 </resources>

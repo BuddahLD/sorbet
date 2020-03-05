@@ -4,6 +4,8 @@ import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApi
 import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApiDefault
 import com.gmail.danylooliinyk.android.sorbet.api.fuel.FuelApi
 import com.gmail.danylooliinyk.android.sorbet.api.fuel.FuelApiDefault
+import com.gmail.danylooliinyk.android.sorbet.data.repository.chatRoom.ChatRoomRepository
+import com.gmail.danylooliinyk.android.sorbet.data.repository.chatRoom.ChatRoomRepositoryDefault
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.ChatRoomListFragment
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVMDefault
@@ -31,5 +33,6 @@ val chatRoomModule: Module = module {
 }
 
 val chatRoomListModule: Module = moduleWithScope(named<ChatRoomListFragment>()) {
-    viewModel { ChatRoomListVMDefault() as ChatRoomListVM }
+    scoped { ChatRoomRepositoryDefault(get()) as ChatRoomRepository }
+    viewModel { ChatRoomListVMDefault(get()) as ChatRoomListVM }
 }

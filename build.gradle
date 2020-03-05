@@ -32,6 +32,7 @@ buildscript {
             firestoreCoroutines: '1.0.0',
             firestore          : '21.4.1',
             gson               : '2.8.6',
+            circleImageView    : '3.1.0',
 
             // Test
             junit              : '4.13',

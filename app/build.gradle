@@ -79,6 +79,9 @@ dependencies {
     // Gson
     implementation "com.google.code.gson:gson:$versions.gson"
 
+    // Circle image view
+    implementation "de.hdodenhof:circleimageview:$versions.circleImageView"
+
     // Tests
     testImplementation "junit:junit:$versions.junit"
     androidTestImplementation "androidx.test.ext:junit:$versions.junitExt"

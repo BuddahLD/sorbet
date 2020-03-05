@@ -1,67 +1,88 @@
 package com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.gmail.danylooliinyk.android.base.extension.observe
+import com.gmail.danylooliinyk.android.base.extension.scopeViewModel
+import com.gmail.danylooliinyk.android.base.view.adapter.BaseViewHolder
+import com.gmail.danylooliinyk.android.base.view.adapter.DelegateAdapter
+import com.gmail.danylooliinyk.android.base.view.fragment.BaseFragment
 import com.gmail.danylooliinyk.android.sorbet.R
-import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApi
 import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
-import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.adapter.ChatRoomItem
+import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
+import com.google.android.material.snackbar.Snackbar
+import com.virgilsecurity.android.base.view.adapter.DelegateAdapterItem
+import com.virgilsecurity.android.base.view.adapter.DiffCallback
+import org.koin.androidx.scope.currentScope
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * ChatRoomListFragment
  */
-class ChatRoomListFragment : Fragment(R.layout.fragment_chat_room_list) {
+class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
 
-    private val firestoreApi: FirestoreApi by inject()
+    private val vm: ChatRoomListVM by scopeViewModel()
+    private lateinit var adapter: DelegateAdapter<ChatRoom>
+    private lateinit var mldChatRoomItem: MutableLiveData<ChatRoomItem.Action>
+    private lateinit var controller: NavController
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initObjects(context: Context) {
+        this.mldChatRoomItem = MutableLiveData()
+        val chatRoomItem = ChatRoomItem(mldChatRoomItem)
+                as DelegateAdapterItem<BaseViewHolder<ChatRoom>, ChatRoom>
 
+        val diffCallback = DiffCallback<ChatRoom>()
+        val adapter = DelegateAdapter.Builder<ChatRoom>()
+            .add(chatRoomItem)
+            .diffCallback(diffCallback)
+            .build()
+
+        this.adapter = adapter
+
+       this.controller =
+            Navigation.findNavController(activity as Activity, R.id.my_nav_host_fragment)
+    }
+
+    override fun initViews(view: View, savedInstanceState: Bundle?) {
         with(view) {
-            val rvChatRooms = findViewById<ImageView>(R.id.rvChatRooms)
-//            val clickListener =
-//                Navigation.createNavigateOnClickListener(R.id.action_chatRoomListFragment_to_chatRoomFragment)
-//            rvChatRooms.setOnClickListener(clickListener)
-            rvChatRooms.setOnClickListener {
-                lifecycleScope.launch {
-                    firestoreApi.addRandomChatRoom()
-                }
+            val rvChatRooms = findViewById<RecyclerView>(R.id.rvChatRooms)
+            rvChatRooms.adapter = this@ChatRoomListFragment.adapter
+            rvChatRooms.layoutManager = LinearLayoutManager(context)
+
+            val fab: View = findViewById(R.id.fabNewChat)
+            fab.setOnClickListener { view ->
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null)
+                    .show()
             }
 
-            Glide.with(this@ChatRoomListFragment)
-                .load("https://eu.ui-avatars.com/api/?name=O+P&rounded=true&background=FF7E7E")
-                .into(rvChatRooms)
-        }
-
-        lifecycleScope.launch {
-            firestoreApi.anonymousSignIn()
-
-//            for (i in 0 until 10)
-//                firestoreApi.addRandomChatRoom()
-
-            firestoreApi.getChatRooms().collect {
-                processResult(it)
-            }
         }
     }
 
-    private suspend fun processResult(querySnapshot: QuerySnapshot) {
-        val allChatRooms = querySnapshot.toObjects(ChatRoom::class.java)
-        val changedChatRooms = querySnapshot.documentChanges
-            .map {
-                it.document.toObject(ChatRoom::class.java)
-            }
+    override fun initData() {
+        observe(vm.getChatRooms(), ::onStateChanged)
+        observe(mldChatRoomItem, ::onActionChanged)
+    }
 
-//        result.forEach {
-//            for (i in 0 until 6)
-//                firestoreApi.addRandomMessage(it.id)
-//        }
+    private fun onStateChanged(state: ChatRoomListVM.State): Unit = when (state) {
+        is ChatRoomListVM.State.OnLoading -> Unit
+        is ChatRoomListVM.State.OnGetChatRoomsSuccess -> adapter.swapData(state.chatRooms)
+        is ChatRoomListVM.State.OnGetChatRoomsError -> Unit
+    }
+
+    private fun onActionChanged(action: ChatRoomItem.Action) = when (action) {
+        is ChatRoomItem.Action.ChatRoomClicked -> {
+            controller.navigate(R.id.action_chatRoomListFragment_to_chatRoomFragment)
+        }
     }
 }
