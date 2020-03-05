@@ -1,5 +1,6 @@
 package com.gmail.danylooliinyk.android.sorbet.di
 
+import androidx.lifecycle.MediatorLiveData
 import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApi
 import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApiDefault
 import com.gmail.danylooliinyk.android.sorbet.api.fuel.FuelApi
@@ -33,6 +34,7 @@ val chatRoomModule: Module = module {
 }
 
 val chatRoomListModule: Module = moduleWithScope(named<ChatRoomListFragment>()) {
+    scoped { MediatorLiveData<ChatRoomListVM.State>() }
     scoped { ChatRoomRepositoryDefault(get()) as ChatRoomRepository }
-    viewModel { ChatRoomListVMDefault(get()) as ChatRoomListVM }
+    viewModel { ChatRoomListVMDefault(get(), get()) as ChatRoomListVM }
 }

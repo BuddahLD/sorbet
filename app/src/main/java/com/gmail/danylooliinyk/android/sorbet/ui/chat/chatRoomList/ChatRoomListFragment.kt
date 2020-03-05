@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,11 +18,9 @@ import com.gmail.danylooliinyk.android.sorbet.R
 import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.adapter.ChatRoomItem
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
-import com.google.android.material.snackbar.Snackbar
+import com.gmail.danylooliinyk.android.sorbet.util.UiUtils
 import com.virgilsecurity.android.base.view.adapter.DelegateAdapterItem
 import com.virgilsecurity.android.base.view.adapter.DiffCallback
-import org.koin.androidx.scope.currentScope
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * ChatRoomListFragment
@@ -49,7 +45,7 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
 
         this.adapter = adapter
 
-       this.controller =
+        this.controller =
             Navigation.findNavController(activity as Activity, R.id.my_nav_host_fragment)
     }
 
@@ -60,28 +56,35 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
             rvChatRooms.layoutManager = LinearLayoutManager(context)
 
             val fab: View = findViewById(R.id.fabNewChat)
-            fab.setOnClickListener { view ->
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null)
-                    .show()
+            fab.setOnClickListener {
+                vm.addRandomChatRoom()
             }
 
         }
     }
 
     override fun initData() {
-        observe(vm.getChatRooms(), ::onStateChanged)
+        vm.getChatRooms()
+
+        observe(vm.getState(), ::onStateChanged)
         observe(mldChatRoomItem, ::onActionChanged)
     }
 
     private fun onStateChanged(state: ChatRoomListVM.State): Unit = when (state) {
-        is ChatRoomListVM.State.OnLoading -> Unit
+        is ChatRoomListVM.State.OnLoading -> Unit // TODO add animation of Loading to content
         is ChatRoomListVM.State.OnGetChatRoomsSuccess -> adapter.swapData(state.chatRooms)
-        is ChatRoomListVM.State.OnGetChatRoomsError -> Unit
+        is ChatRoomListVM.State.OnGetChatRoomsError -> {
+            UiUtils.showSnackbar(
+                requireView(),
+                state.throwable.localizedMessage
+                    ?: "Unhandled error. Contact developer, please."
+            )
+        }
+        is ChatRoomListVM.State.OnChatRoomAdded -> Unit
     }
 
     private fun onActionChanged(action: ChatRoomItem.Action) = when (action) {
-        is ChatRoomItem.Action.ChatRoomClicked -> {
+        is ChatRoomItem.Action.ChatRoomClicked -> { // TODO add animation of fragment change
             controller.navigate(R.id.action_chatRoomListFragment_to_chatRoomFragment)
         }
     }

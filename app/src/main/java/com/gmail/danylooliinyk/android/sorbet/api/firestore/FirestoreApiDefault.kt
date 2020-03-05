@@ -13,6 +13,7 @@ import com.kiwimob.firestore.coroutines.await
 import com.kiwimob.firestore.coroutines.snapshotAsFlow
 import kotlinx.coroutines.flow.Flow
 import java.util.*
+import kotlin.random.Random
 
 /**
  * FirestoreApi
@@ -53,18 +54,23 @@ class FirestoreApiDefault(
     override suspend fun addRandomChatRoom() {
         val collection = firestore.collection(CHAT_ROOMS_KEY)
         val id = "${UUID.randomUUID()}"
-        val randomGroupName = fuelApi.getRandomGroupName()
+        val randomGroupName = fuelApi.getRandomGroupName().capitalize()
         val firstTwoLetters = randomGroupName.split(" ")
             .take(2)
             .map { it[0].toUpperCase() }
+        val membersCount = Random.nextInt(212, 983).toString()
         val chatRoom = ChatRoom(
             id,
             randomGroupName,
             ENTRY_MESSAGE,
-            "666",
+            membersCount,
             pictureProvider.getPicturePath(firstTwoLetters)
         )
         collection.document(id).set(chatRoom).await()
+    }
+
+    override suspend fun addChatRoom(chatRoom: ChatRoom) {
+        firestore.collection(CHAT_ROOMS_KEY).document(chatRoom.id).set(chatRoom).await()
     }
 
     override suspend fun addRandomMessage(chatRoomId: String) {

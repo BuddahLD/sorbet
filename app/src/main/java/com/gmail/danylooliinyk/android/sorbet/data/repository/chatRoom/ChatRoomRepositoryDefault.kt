@@ -4,6 +4,7 @@ import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApi
 import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.transform
 
 /**
@@ -32,5 +33,17 @@ class ChatRoomRepositoryDefault(
 
     override fun getChatRoomsPage(size: Int): Flow<ChatRoomListVM.State> {
         throw NotImplementedError("getChatRoomsPage")  // TODO implement
+    }
+
+    override fun addRandomChatRoom(): Flow<ChatRoomListVM.State> = flow {
+            emit(ChatRoomListVM.State.OnLoading)
+            firestoreApi.addRandomChatRoom()
+            emit(ChatRoomListVM.State.OnChatRoomAdded)
+        }
+
+    override fun addChatRoom(chatRoom: ChatRoom): Flow<ChatRoomListVM.State> = flow {
+        emit(ChatRoomListVM.State.OnLoading)
+        firestoreApi.addChatRoom(chatRoom)
+        emit(ChatRoomListVM.State.OnChatRoomAdded)
     }
 }

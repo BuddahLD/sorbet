@@ -1,7 +1,9 @@
 package com.gmail.danylooliinyk.android.sorbet.data.repository.chatRoom
 
+import androidx.lifecycle.LiveData
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import kotlinx.coroutines.flow.Flow
+import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 
 /**
  * ChatRoomRepository
@@ -22,4 +24,14 @@ interface ChatRoomRepository {
      * Returns chat rooms page with a provided [size].
      */
     fun getChatRoomsPage(size: Int): Flow<ChatRoomListVM.State>
+
+    /**
+     * Adds a [ChatRoom] to the firestore with randomly generated parameters.
+     */
+    fun addRandomChatRoom(): Flow<ChatRoomListVM.State>
+
+    /**
+     * Adds a [ChatRoom] to the firestore with provided [chatRoom].
+     */
+    fun addChatRoom(chatRoom: ChatRoom): Flow<ChatRoomListVM.State>
 }
