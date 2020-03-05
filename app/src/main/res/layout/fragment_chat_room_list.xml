@@ -25,14 +25,17 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabNewChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_margin="16dp"
 
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        app:maxImageSize="12dp"
+        app:backgroundTint="@color/accent"
         android:src="@drawable/ic_plus_24px"
         android:contentDescription="@string/create_new_chat" />
 

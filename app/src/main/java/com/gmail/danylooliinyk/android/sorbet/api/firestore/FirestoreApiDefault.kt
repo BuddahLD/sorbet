@@ -8,6 +8,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.kiwimob.firestore.coroutines.await
 import com.kiwimob.firestore.coroutines.snapshotAsFlow
@@ -18,7 +19,7 @@ import kotlin.random.Random
 /**
  * FirestoreApi
  */
-class FirestoreApiDefault(
+class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
     private val fuelApi: FuelApi,
     private val pictureProvider: PictureProvider
 ) : FirestoreApi {
@@ -49,7 +50,9 @@ class FirestoreApiDefault(
     }
 
     override fun getChatRooms(): Flow<QuerySnapshot> =
-        firestore.collection(CHAT_ROOMS_KEY).snapshotAsFlow()
+        firestore.collection(CHAT_ROOMS_KEY)
+            .orderBy("created_at", Query.Direction.DESCENDING)
+            .snapshotAsFlow()
 
     override suspend fun addRandomChatRoom() {
         val collection = firestore.collection(CHAT_ROOMS_KEY)
@@ -62,6 +65,7 @@ class FirestoreApiDefault(
         val chatRoom = ChatRoom(
             id,
             randomGroupName,
+            Timestamp.now(),
             ENTRY_MESSAGE,
             membersCount,
             pictureProvider.getPicturePath(firstTwoLetters)
@@ -92,12 +96,13 @@ class FirestoreApiDefault(
         firestore.collection(CHAT_ROOMS_KEY)
             .document(chatRoomId)
             .collection(MESSAGES_KEY)
+            .orderBy("created_at", Query.Direction.ASCENDING)
             .snapshotAsFlow()
 
     companion object {
-        private val CHAT_ROOMS_KEY = "ChatRooms"
-        private val MESSAGES_KEY = "Messages"
+        private const val CHAT_ROOMS_KEY = "ChatRooms"
+        private const val MESSAGES_KEY = "Messages"
 
-        private val ENTRY_MESSAGE = "No messages yet (:"
+        private const val ENTRY_MESSAGE = "No messages yet (:"
     }
 }

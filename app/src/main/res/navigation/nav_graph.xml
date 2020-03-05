@@ -11,19 +11,11 @@
         android:label="ChatRoomListFragment" >
         <action
             android:id="@+id/action_chatRoomListFragment_to_chatRoomFragment"
-            app:destination="@id/chatRoomFragment" />
-        <action
-            android:id="@+id/action_chatRoomListFragment_to_stubFragmentFour"
-            app:destination="@id/stubFragmentFour" />
-        <action
-            android:id="@+id/action_chatRoomListFragment_to_stubFragmentThree"
-            app:destination="@id/stubFragmentThree" />
-        <action
-            android:id="@+id/action_chatRoomListFragment_to_stubFragmentTwo"
-            app:destination="@id/stubFragmentTwo" />
-        <action
-            android:id="@+id/action_chatRoomListFragment_to_stubFragmentOne"
-            app:destination="@id/stubFragmentOne" />
+            app:destination="@id/chatRoomFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/chatRoomFragment"

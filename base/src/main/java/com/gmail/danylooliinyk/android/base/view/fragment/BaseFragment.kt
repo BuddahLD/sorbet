@@ -53,6 +53,11 @@ abstract class BaseFragment(
     protected abstract fun initObjects(context: Context)
 
     /**
+     * Used to initialize observers.
+     */
+    protected abstract fun initObservers()
+
+    /**
      * Used to initialize views.
      */
     protected abstract fun initViews(view: View, savedInstanceState: Bundle?)
@@ -66,6 +71,7 @@ abstract class BaseFragment(
         super.onAttach(context)
 
         initObjects(context)
+        initObservers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

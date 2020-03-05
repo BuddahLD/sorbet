@@ -15,6 +15,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/default_margin"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/gray_middle_darker"
 
         tools:src="@drawable/ic_account_circle_24px" />
 
@@ -35,7 +37,7 @@
         android:ellipsize="end"
         android:textSize="@dimen/big_text"
         android:textStyle="bold"
-        android:textColor="@color/gray_black"
+        android:textColor="@color/primary_text"
 
         tools:text="Here is some group name"/>
 
@@ -53,6 +55,7 @@
 
         android:maxLines="1"
         android:ellipsize="end"
+        android:textColor="@color/secondary_text"
 
         tools:text="Last message can be very long but it should ellipsize in the end"/>
 

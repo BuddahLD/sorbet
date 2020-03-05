@@ -18,6 +18,10 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         // TODO Implement body or it will be empty ):
     }
 
+    override fun initObservers() {
+        // TODO Implement body or it will be empty ):
+    }
+
     override fun initViews(view: View, savedInstanceState: Bundle?) {
         // TODO Implement body or it will be empty ):
     }

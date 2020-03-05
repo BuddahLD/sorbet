@@ -1,12 +1,10 @@
 package com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.danylooliinyk.android.base.extension.observe
@@ -30,7 +28,6 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
     private val vm: ChatRoomListVM by scopeViewModel()
     private lateinit var adapter: DelegateAdapter<ChatRoom>
     private lateinit var mldChatRoomItem: MutableLiveData<ChatRoomItem.Action>
-    private lateinit var controller: NavController
 
     override fun initObjects(context: Context) {
         this.mldChatRoomItem = MutableLiveData()
@@ -44,9 +41,11 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
             .build()
 
         this.adapter = adapter
+    }
 
-        this.controller =
-            Navigation.findNavController(activity as Activity, R.id.my_nav_host_fragment)
+    override fun initObservers() {
+        observe(vm.getState(), ::onStateChanged)
+        observe(mldChatRoomItem, ::onActionChanged)
     }
 
     override fun initViews(view: View, savedInstanceState: Bundle?) {
@@ -57,22 +56,18 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
 
             val fab: View = findViewById(R.id.fabNewChat)
             fab.setOnClickListener {
-                vm.addRandomChatRoom()
+                vm.addRandomChatRoom() // TODO add adding animation item
             }
-
         }
     }
 
     override fun initData() {
         vm.getChatRooms()
-
-        observe(vm.getState(), ::onStateChanged)
-        observe(mldChatRoomItem, ::onActionChanged)
     }
 
     private fun onStateChanged(state: ChatRoomListVM.State): Unit = when (state) {
         is ChatRoomListVM.State.OnLoading -> Unit // TODO add animation of Loading to content
-        is ChatRoomListVM.State.OnGetChatRoomsSuccess -> adapter.swapData(state.chatRooms)
+        is ChatRoomListVM.State.OnGetChatRoomsSuccess -> adapter.swapData(state.chatRooms) // TODO show empty label when no chat rooms
         is ChatRoomListVM.State.OnGetChatRoomsError -> {
             UiUtils.showSnackbar(
                 requireView(),
@@ -85,7 +80,9 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
 
     private fun onActionChanged(action: ChatRoomItem.Action) = when (action) {
         is ChatRoomItem.Action.ChatRoomClicked -> { // TODO add animation of fragment change
-            controller.navigate(R.id.action_chatRoomListFragment_to_chatRoomFragment)
+            val action =
+                ChatRoomListFragmentDirections.action_chatRoomListFragment_to_chatRoomFragment()
+            findNavController().navigate(action)
         }
     }
 }
