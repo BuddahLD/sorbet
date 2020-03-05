@@ -7,4 +7,11 @@
     <color name="snow">#ffffffff</color>
     <color name="grayLight">#94ffffff</color>
 
+    <color name="amber">#FFBF00</color>
+    <color name="aquamarine">#7FFFD4</color>
+    <color name="baby_blue_eyes">#A1CAF1</color>
+    <color name="baker_miller_pink">#FF91AF</color>
+    <color name="banana_mania">#FAE7B5</color>
+    <color name="ash_gray">#B2BEB5</color>
+
 </resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="group_avatars_colors">
+        <item>@color/amber</item>
+        <item>@color/aquamarine</item>
+        <item>@color/baby_blue_eyes</item>
+        <item>@color/baker_miller_pink</item>
+        <item>@color/banana_mania</item>
+        <item>@color/ash_gray</item>
+    </array>
+
+</resources>

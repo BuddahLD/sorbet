@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion 29
@@ -27,6 +28,12 @@ android {
 
 }
 
+// Inner dependencies
+dependencies {
+    implementation project(":base")
+}
+
+// Outer dependencies
 dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlinVersion"
@@ -36,15 +43,18 @@ dependencies {
 
     // Compat
     implementation "androidx.appcompat:appcompat:$versions.appCompat"
-//    implementation "com.google.android.material:material:1.0.0-rc01"
-    implementation "com.google.android.material:material:1.2.0-alpha05"
+    implementation "com.google.android.material:material:$versions.material"
 
     // Kotlin ktx
     implementation "androidx.core:core-ktx:$versions.ktx"
-    implementation "androidx.fragment:fragment-ktx:1.2.2"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "androidx.fragment:fragment-ktx:$versions.fragmentKtx"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycleKtx"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycleKtx"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycleKtx"
+
+    // Navigation ktx
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.navigation"
 
     // Constraint layout
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
@@ -53,11 +63,21 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$versions.koin"
     implementation "org.koin:koin-androidx-scope:$versions.koin"
 
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$versions.glide"
+
     // Firebase
     implementation "com.google.firebase:firebase-analytics:$versions.firebase"
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.github.brotoo25:firestore-coroutines:1.0.0'
-    implementation 'com.google.firebase:firebase-firestore:21.4.1'
+    implementation "com.google.firebase:firebase-auth:$versions.firebaseAuth"
+    implementation "com.github.brotoo25:firestore-coroutines:$versions.firestoreCoroutines"
+    implementation "com.google.firebase:firebase-firestore:$versions.firestore"
+
+    // Fuel
+    implementation "com.github.kittinunf.fuel:fuel-coroutines:$versions.fuel"
+
+    // Gson
+    implementation "com.google.code.gson:gson:$versions.gson"
 
     // Tests
     testImplementation "junit:junit:$versions.junit"

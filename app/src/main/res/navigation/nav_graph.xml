@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/chatRoomListFragment">
+
+    <fragment
+        android:id="@+id/chatRoomListFragment"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.ChatRoomListFragment"
+        android:label="ChatRoomListFragment" >
+        <action
+            android:id="@+id/action_chatRoomListFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+        <action
+            android:id="@+id/action_chatRoomListFragment_to_stubFragmentFour"
+            app:destination="@id/stubFragmentFour" />
+        <action
+            android:id="@+id/action_chatRoomListFragment_to_stubFragmentThree"
+            app:destination="@id/stubFragmentThree" />
+        <action
+            android:id="@+id/action_chatRoomListFragment_to_stubFragmentTwo"
+            app:destination="@id/stubFragmentTwo" />
+        <action
+            android:id="@+id/action_chatRoomListFragment_to_stubFragmentOne"
+            app:destination="@id/stubFragmentOne" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.ChatRoomFragment"
+        android:label="ChatRoomFragment" />
+    <fragment
+        android:id="@+id/stubFragmentOne"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.stubs.StubFragmentOne"
+        android:label="StubFragmentOne" />
+    <fragment
+        android:id="@+id/stubFragmentTwo"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.stubs.StubFragmentTwo"
+        android:label="StubFragmentTwo" />
+    <fragment
+        android:id="@+id/stubFragmentThree"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.stubs.StubFragmentThree"
+        android:label="StubFragmentThree" />
+    <fragment
+        android:id="@+id/stubFragmentFour"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.stubs.StubFragmentFour"
+        android:label="StubFragmentFour" />
+</navigation>

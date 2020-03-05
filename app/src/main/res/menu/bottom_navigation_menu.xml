@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_gift"
+    <item android:id="@+id/stubFragmentOne"
         android:title="@string/gift"
-        android:icon="@drawable/card_giftcard_24px" />
+        android:icon="@drawable/ic_card_giftcard_24px" />
 
-    <item android:id="@+id/action_android"
+    <item android:id="@+id/stubFragmentTwo"
         android:title="@string/android"
-        android:icon="@drawable/android_24px" />
+        android:icon="@drawable/ic_android_24px" />
 
-    <item android:id="@+id/action_chat"
+    <item android:id="@+id/chatRoomListFragment"
         android:title="@string/chat"
-        android:icon="@drawable/chat_24px" />
+        android:icon="@drawable/ic_chat_24px" />
 
-    <item android:id="@+id/action_home"
+    <item android:id="@+id/stubFragmentThree"
         android:title="@string/home"
-        android:icon="@drawable/account_balance_24px" />
+        android:icon="@drawable/ic_account_balance_24px" />
 
-    <item android:id="@+id/action_camera"
+    <item android:id="@+id/stubFragmentFour"
         android:title="@string/camera"
-        android:icon="@drawable/camera_enhance_24px" />
+        android:icon="@drawable/ic_camera_enhance_24px" />
 </menu>

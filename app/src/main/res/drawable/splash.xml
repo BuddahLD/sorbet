@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque"> <!-- android:opacity="opaque" should be here -->
+    <item>
+        <!--this is your background, you can use color, gradient etc.-->
+        <color android:color="@color/snow" />
+    </item>
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/sorbet_64" />
+    </item>
+</layer-list>
