@@ -20,7 +20,11 @@
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.ChatRoomFragment"
-        android:label="ChatRoomFragment" />
+        android:label="ChatRoomFragment" >
+        <argument
+            android:name="chatRoom"
+            app:argType="com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom" />
+    </fragment>
     <fragment
         android:id="@+id/stubFragmentOne"
         android:name="com.gmail.danylooliinyk.android.sorbet.ui.stubs.StubFragmentOne"

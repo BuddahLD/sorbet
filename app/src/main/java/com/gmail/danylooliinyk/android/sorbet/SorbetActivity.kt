@@ -19,6 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class SorbetActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigation: BottomNavigationView
+
+    private var navListener: NavController.OnDestinationChangedListener? = null
     private var backPressed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +32,15 @@ class SorbetActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fNavHost) as NavHostFragment
         this.bottomNavigation = findViewById(R.id.bottomNavigation)
         NavigationUI.setupWithNavController(bottomNavigation, navHostFragment.navController)
-        bnVisibilityListener(findNavController(R.id.fNavHost))
+        setNavControllerListener(findNavController(R.id.fNavHost))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        navListener?.run {
+            findNavController(R.id.fNavHost).removeOnDestinationChangedListener(this)
+        }
     }
 
     override fun onBackPressed() {
@@ -43,12 +53,11 @@ class SorbetActivity : AppCompatActivity() {
             }
 
             backPressed = true
-            Toast.makeText(this, "Press back once more to exit", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.press_back_once_more), Toast.LENGTH_SHORT)
+                .show()
 
             Handler().postDelayed(
-                {
-                    backPressed = false
-                },
+                { backPressed = false },
                 2000L
             )
         } else {
@@ -59,30 +68,32 @@ class SorbetActivity : AppCompatActivity() {
     /**
      * Bottom Navigation view visibility listener function. It shows or hides Bottom Navigation.
      */
-    private fun bnVisibilityListener(navController: NavController) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+    private fun setNavControllerListener(navController: NavController) {
+        this.navListener = NavController.OnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.chatRoomFragment -> {
-                    ObjectAnimator.ofFloat(bottomNavigation, "translationY", 250f).apply {
-                        duration =
-                            resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-                        addListener(onStart = {
-                            bottomNavigation.visibility = View.GONE
-                        })
-                        start()
-                    }
-                }
-                else -> {
-                    ObjectAnimator.ofFloat(bottomNavigation, "translationY", 0f).apply {
-                        duration =
-                            resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
-                        addListener(onStart = {
-                            bottomNavigation.visibility = View.VISIBLE
-                        })
-                        start()
-                    }
-                }
+                R.id.chatRoomFragment -> showBottomNavigation(false, bottomNavigation)
+                else -> showBottomNavigation(true, bottomNavigation)
             }
+        }.also { listener ->
+            navController.addOnDestinationChangedListener(listener)
         }
+    }
+
+    private fun showBottomNavigation(show: Boolean, bottomNavigation: BottomNavigationView) {
+        val (visibility, distance) = if (show) {
+            View.VISIBLE to 0f
+        } else {
+            View.GONE to 250f
+        }
+
+        ObjectAnimator.ofFloat(bottomNavigation, TRANSLATION_Y, distance).apply {
+            duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+            addListener(onStart = { bottomNavigation.visibility = visibility })
+            start()
+        }
+    }
+
+    companion object {
+        private const val TRANSLATION_Y = "translationY"
     }
 }

@@ -12,25 +12,25 @@ import kotlinx.coroutines.Dispatchers
  */
 class ChatRoomListVMDefault(
     private val state: MediatorLiveData<State>,
-    private val chatRoomRepository: ChatRoomRepository
+    private val repository: ChatRoomRepository
 ) : ChatRoomListVM() {
 
     override fun getChatRooms() {
-        val liveData = chatRoomRepository.getChatRooms().asLiveData(
+        val liveData = repository.getChatRooms().asLiveData(
             viewModelScope.coroutineContext + Dispatchers.IO
         )
         state.addSource(liveData) { value -> state.setValue(value) }
     }
 
     override fun getChatRoomsDiff() {
-        val liveData = chatRoomRepository.getChatRoomsDiff().asLiveData(
+        val liveData = repository.getChatRoomsDiff().asLiveData(
             viewModelScope.coroutineContext + Dispatchers.IO
         )
         state.addSource(liveData) { value -> state.setValue(value) }
     }
 
     override fun getChatRoomsPage(size: Int) {
-        val liveData = chatRoomRepository.getChatRoomsPage(size)
+        val liveData = repository.getChatRoomsPage(size)
             .asLiveData(
                 viewModelScope.coroutineContext + Dispatchers.IO
             )
@@ -38,7 +38,7 @@ class ChatRoomListVMDefault(
     }
 
     override fun addRandomChatRoom() {
-        val liveData = chatRoomRepository.addRandomChatRoom()
+        val liveData = repository.addRandomChatRoom()
             .asLiveData(
                 viewModelScope.coroutineContext + Dispatchers.IO
             )

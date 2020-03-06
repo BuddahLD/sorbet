@@ -1,9 +1,8 @@
 package com.gmail.danylooliinyk.android.sorbet.data.repository.chatRoom
 
-import androidx.lifecycle.LiveData
+import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import kotlinx.coroutines.flow.Flow
-import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 
 /**
  * ChatRoomRepository
@@ -11,7 +10,7 @@ import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 interface ChatRoomRepository {
 
     /**
-     * Should return all chat rooms list. On snapshot changes returns whole list as well.
+     * Returns all chat rooms list. On snapshot changes returns whole list as well.
      */
     fun getChatRooms(): Flow<ChatRoomListVM.State>
 

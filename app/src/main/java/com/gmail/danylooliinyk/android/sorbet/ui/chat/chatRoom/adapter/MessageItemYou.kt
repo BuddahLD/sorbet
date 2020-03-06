@@ -17,6 +17,7 @@ class MessageItemYou(
     override fun onBind(item: Message, viewHolder: KViewHolder<Message>) =
         with(viewHolder.containerView) {
             findViewById<TextView>(R.id.tvMessage).text = item.body
+            findViewById<TextView>(R.id.tvInterlocutorName).text = item.sender
         }
 
     override fun onRecycled(holder: KViewHolder<Message>) {}

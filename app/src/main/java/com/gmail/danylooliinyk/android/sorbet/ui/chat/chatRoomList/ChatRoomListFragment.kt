@@ -11,14 +11,14 @@ import com.gmail.danylooliinyk.android.base.extension.observe
 import com.gmail.danylooliinyk.android.base.extension.scopeViewModel
 import com.gmail.danylooliinyk.android.base.view.adapter.BaseViewHolder
 import com.gmail.danylooliinyk.android.base.view.adapter.DelegateAdapter
+import com.gmail.danylooliinyk.android.base.view.adapter.DelegateAdapterItem
+import com.gmail.danylooliinyk.android.base.view.adapter.DiffCallback
 import com.gmail.danylooliinyk.android.base.view.fragment.BaseFragment
 import com.gmail.danylooliinyk.android.sorbet.R
 import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.adapter.ChatRoomItem
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import com.gmail.danylooliinyk.android.sorbet.util.UiUtils
-import com.gmail.danylooliinyk.android.base.view.adapter.DelegateAdapterItem
-import com.gmail.danylooliinyk.android.base.view.adapter.DiffCallback
 
 /**
  * ChatRoomListFragment
@@ -80,8 +80,9 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
 
     private fun onActionChanged(action: ChatRoomItem.Action) = when (action) {
         is ChatRoomItem.Action.ChatRoomClicked -> { // TODO add animation of fragment change
+
             val action =
-                ChatRoomListFragmentDirections.action_chatRoomListFragment_to_chatRoomFragment()
+                ChatRoomListFragmentDirections.actionChatRoomListFragmentToChatRoomFragment(action.chatRoom)
             findNavController().navigate(action)
         }
     }

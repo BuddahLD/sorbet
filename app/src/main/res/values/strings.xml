@@ -16,6 +16,9 @@
     <string name="search_button">Search button</string>
     <string name="info_button">Info button</string>
 
+    <!-- Sorbet Activity -->
+    <string name="press_back_once_more">Press back once more to exit</string>
+
     <!-- Chat room list -->
     <string name="create_new_chat">Create new chat</string>
 

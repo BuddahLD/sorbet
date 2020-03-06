@@ -6,10 +6,7 @@ import com.gmail.danylooliinyk.android.sorbet.data.model.Message
 import com.gmail.danylooliinyk.android.sorbet.util.PictureProvider
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import com.kiwimob.firestore.coroutines.await
 import com.kiwimob.firestore.coroutines.snapshotAsFlow
 import kotlinx.coroutines.flow.Flow
@@ -54,50 +51,74 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
             .orderBy("created_at", Query.Direction.DESCENDING)
             .snapshotAsFlow()
 
+    /**
+     * Adds a [ChatRoom] with randomly generated parameters, then adds a [Message] into the
+     * newly created [ChatRoom]. These two operations happen as transaction (batch).
+     */
     override suspend fun addRandomChatRoom() {
-        val collection = firestore.collection(CHAT_ROOMS_KEY)
+        val newChatRoom = generateRandomChatRoom()
+        val newMessage = generateRandomMessage()
+
+        val addChatRoomRef = getAddChatRoomRef(newChatRoom.id)
+        val sendMessageRef = getSendMessageRef(newMessage.id, newChatRoom.id)
+
+        firestore.runBatch { batch ->
+            batch.set(addChatRoomRef, newChatRoom)
+            batch.set(sendMessageRef, newMessage)
+        }.await()
+    }
+
+    override suspend fun addChatRoom(chatRoom: ChatRoom) {
+        getAddChatRoomRef(chatRoom.id).set(chatRoom).await()
+    }
+
+    override fun getMessages(chatRoomId: String): Flow<QuerySnapshot> =
+        firestore.collection(CHAT_ROOMS_KEY)
+            .document(chatRoomId)
+            .collection(MESSAGES_KEY)
+            .orderBy("created_at", Query.Direction.ASCENDING)
+            .snapshotAsFlow()
+
+    override suspend fun addMessage(message: Message, chatRoomId: String) {
+        getSendMessageRef(message.id, chatRoomId).set(message).await()
+    }
+
+    private suspend fun generateRandomChatRoom(): ChatRoom {
         val id = "${UUID.randomUUID()}"
         val randomGroupName = fuelApi.getRandomGroupName().capitalize()
         val firstTwoLetters = randomGroupName.split(" ")
             .take(2)
             .map { it[0].toUpperCase() }
         val membersCount = Random.nextInt(212, 983).toString()
-        val chatRoom = ChatRoom(
+        val picturePath = pictureProvider.getPicturePath(firstTwoLetters)
+        return ChatRoom(
             id,
             randomGroupName,
             Timestamp.now(),
             ENTRY_MESSAGE,
             membersCount,
-            pictureProvider.getPicturePath(firstTwoLetters)
+            picturePath
         )
-        collection.document(id).set(chatRoom).await()
     }
 
-    override suspend fun addChatRoom(chatRoom: ChatRoom) {
-        firestore.collection(CHAT_ROOMS_KEY).document(chatRoom.id).set(chatRoom).await()
-    }
-
-    override suspend fun addRandomMessage(chatRoomId: String) {
-        val collection = firestore.collection(CHAT_ROOMS_KEY)
-            .document(chatRoomId)
-            .collection(MESSAGES_KEY)
-
+    private fun generateRandomMessage(): Message {
         val id = "${UUID.randomUUID()}"
-        val chatRoom = Message(
+        return Message(
             id,
-            "Text of message is very interesting",
-            Timestamp(Date()),
-            "Some sender"
+            ENTRY_MESSAGE,
+            Timestamp.now(),
+            id // Just random sender id for the first message
         )
-        collection.document(id).set(chatRoom).await()
     }
 
-    override suspend fun getMessages(chatRoomId: String): Flow<QuerySnapshot> =
+    private fun getAddChatRoomRef(chatRoomId: String): DocumentReference =
+        firestore.collection(CHAT_ROOMS_KEY).document(chatRoomId)
+
+    private fun getSendMessageRef(messageId: String, chatRoomId: String) =
         firestore.collection(CHAT_ROOMS_KEY)
             .document(chatRoomId)
             .collection(MESSAGES_KEY)
-            .orderBy("created_at", Query.Direction.ASCENDING)
-            .snapshotAsFlow()
+            .document(messageId)
 
     companion object {
         private const val CHAT_ROOMS_KEY = "ChatRooms"

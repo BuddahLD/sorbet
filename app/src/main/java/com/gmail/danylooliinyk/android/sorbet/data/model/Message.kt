@@ -13,19 +13,19 @@ import java.util.*
 data class Message(
     @JvmField
     @PropertyName("body")
-    val id: String,
+    val id: String = "",
 
     @JvmField
     @PropertyName("body")
-    val body: String,
+    val body: String = "",
 
     @JvmField
     @PropertyName("created_at")
-    val createdAt: Timestamp,
+    val createdAt: Timestamp = Timestamp.now(),
 
     @JvmField
     @PropertyName("sender")
-    val sender: String
+    val sender: String = ""
 ): Comparable<Message>, Parcelable {
 
     override fun compareTo(other: Message): Int = this.id.compareTo(other.id)

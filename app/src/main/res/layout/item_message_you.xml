@@ -24,6 +24,7 @@
         android:layout_marginStart="@dimen/half_default_margin"
         android:maxWidth="100dp"
         android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="@dimen/small_text"
         android:textStyle="bold"
 
@@ -42,13 +43,12 @@
         android:maxWidth="100dp"
         android:maxLines="1"
         android:textSize="10dp"
+        android:text="5768"
 
         app:layout_constraintBottom_toBottomOf="@id/civInterlocutorPic"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/civInterlocutorPic"
-        app:layout_constraintTop_toBottomOf="@id/tvInterlocutorName"
-
-        tools:text="5768" />
+        app:layout_constraintTop_toBottomOf="@id/tvInterlocutorName" />
 
     <TextView
         android:id="@+id/tvInterlocutorDelimiter"
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="•"
-        android:textSize="10dp"
+        android:textSize="12dp"
 
         app:layout_constraintBottom_toBottomOf="@id/tvInterlocutorMessagesCount"
         app:layout_constraintEnd_toStartOf="@id/tvInterlocutorTitle"
@@ -70,13 +70,13 @@
         android:layout_marginStart="4dp"
         android:maxWidth="100dp"
         android:maxLines="1"
+        android:ellipsize="end"
         android:textSize="10dp"
+        android:text="User title"
 
         app:layout_constraintBottom_toBottomOf="@id/tvInterlocutorDelimiter"
         app:layout_constraintStart_toEndOf="@id/tvInterlocutorDelimiter"
-        app:layout_constraintTop_toTopOf="@id/tvInterlocutorDelimiter"
-
-        tools:text="User title" />
+        app:layout_constraintTop_toTopOf="@id/tvInterlocutorDelimiter" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clMessageRoot"
