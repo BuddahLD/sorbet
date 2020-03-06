@@ -19,4 +19,8 @@
     <!-- Chat room list -->
     <string name="create_new_chat">Create new chat</string>
 
+    <!-- Chat room -->
+    <string name="message">Type your message</string>
+    <string name="send_message_button">Send message button</string>
+
 </resources>

@@ -17,8 +17,8 @@ import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.adapter.ChatRoomItem
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import com.gmail.danylooliinyk.android.sorbet.util.UiUtils
-import com.virgilsecurity.android.base.view.adapter.DelegateAdapterItem
-import com.virgilsecurity.android.base.view.adapter.DiffCallback
+import com.gmail.danylooliinyk.android.base.view.adapter.DelegateAdapterItem
+import com.gmail.danylooliinyk.android.base.view.adapter.DiffCallback
 
 /**
  * ChatRoomListFragment

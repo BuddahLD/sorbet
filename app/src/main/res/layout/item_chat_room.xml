@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civGroupPic"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:layout_marginStart="@dimen/default_margin"
 
-        app:layout_constraintTop_toTopOf="parent"
+        app:civ_border_color="@color/gray_middle_darker"
+        app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/default_margin"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/gray_middle_darker"
+        app:layout_constraintTop_toTopOf="parent"
 
         tools:src="@drawable/ic_account_circle_24px" />
 
@@ -25,68 +25,68 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tvLastMessage"
-        app:layout_constraintStart_toEndOf="@id/civGroupPic"
-        app:layout_constraintEnd_toStartOf="@id/ivMembersCountIcon"
-        app:layout_constraintVertical_chainStyle="packed"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
-
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/primary_text"
         android:textSize="@dimen/big_text"
         android:textStyle="bold"
-        android:textColor="@color/primary_text"
 
-        tools:text="Here is some group name"/>
+        app:layout_constraintBottom_toTopOf="@id/tvLastMessage"
+        app:layout_constraintEnd_toStartOf="@id/ivMembersCountIcon"
+        app:layout_constraintStart_toEndOf="@id/civGroupPic"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+
+        tools:text="Here is some group name" />
 
     <TextView
         android:id="@+id/tvLastMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        app:layout_constraintTop_toBottomOf="@id/tvGroupName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/civGroupPic"
-        app:layout_constraintEnd_toStartOf="@id/ivMembersCountIcon"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
-
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/secondary_text"
+        app:layout_constraintBottom_toBottomOf="parent"
 
-        tools:text="Last message can be very long but it should ellipsize in the end"/>
+        app:layout_constraintEnd_toStartOf="@id/ivMembersCountIcon"
+        app:layout_constraintStart_toEndOf="@id/civGroupPic"
+        app:layout_constraintTop_toBottomOf="@id/tvGroupName"
+
+        tools:text="Last message can be very long but it should ellipsize in the end" />
 
     <ImageView
         android:id="@+id/ivMembersCountIcon"
         android:layout_width="16dp"
         android:layout_height="16dp"
 
+        android:src="@drawable/ic_identity_24px"
         app:layout_constraintBottom_toBottomOf="@id/tvMembersCount"
-        app:layout_constraintStart_toEndOf="@id/tvGroupName"
         app:layout_constraintEnd_toStartOf="@id/tvMembersCount"
 
-        android:src="@drawable/ic_identity_24px" />
+        app:layout_constraintStart_toEndOf="@id/tvGroupName" />
 
     <TextView
         android:id="@+id/tvMembersCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="56dp"
+        android:layout_marginEnd="@dimen/twenty_margin"
 
-        app:layout_constraintTop_toTopOf="@id/tvGroupName"
+        android:ellipsize="end"
+        android:maxWidth="56dp"
+        android:maxLines="1"
+        android:textColor="@color/gray_middle_darker"
+        android:textSize="@dimen/small_text"
+
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/tvGroupName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivMembersCountIcon"
-        android:layout_marginEnd="@dimen/twenty_margin"
-
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="@dimen/small_text"
-        android:textColor="@color/gray_middle_darker"
-        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/tvGroupName"
 
         tools:text="367K" />
 </androidx.constraintlayout.widget.ConstraintLayout>

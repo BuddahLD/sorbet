@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/default_margin"
+    android:padding="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civInterlocutorPic"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+
+        android:src="@drawable/ic_identity_24px"
+        app:layout_constraintStart_toStartOf="@+id/clMessageRoot"
+
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvInterlocutorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/half_default_margin"
+        android:maxWidth="100dp"
+        android:maxLines="1"
+        android:textSize="@dimen/small_text"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toTopOf="@id/tvInterlocutorMessagesCount"
+        app:layout_constraintStart_toEndOf="@id/civInterlocutorPic"
+        app:layout_constraintTop_toTopOf="@id/civInterlocutorPic"
+        app:layout_constraintVertical_chainStyle="packed"
+
+        tools:text="Username of the guy to the left" />
+
+    <TextView
+        android:id="@+id/tvInterlocutorMessagesCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/half_default_margin"
+        android:maxWidth="100dp"
+        android:maxLines="1"
+        android:textSize="10dp"
+
+        app:layout_constraintBottom_toBottomOf="@id/civInterlocutorPic"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/civInterlocutorPic"
+        app:layout_constraintTop_toBottomOf="@id/tvInterlocutorName"
+
+        tools:text="5768" />
+
+    <TextView
+        android:id="@+id/tvInterlocutorDelimiter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="•"
+        android:textSize="10dp"
+
+        app:layout_constraintBottom_toBottomOf="@id/tvInterlocutorMessagesCount"
+        app:layout_constraintEnd_toStartOf="@id/tvInterlocutorTitle"
+        app:layout_constraintStart_toEndOf="@id/tvInterlocutorMessagesCount"
+        app:layout_constraintTop_toTopOf="@id/tvInterlocutorMessagesCount" />
+
+    <TextView
+        android:id="@+id/tvInterlocutorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:maxWidth="100dp"
+        android:maxLines="1"
+        android:textSize="10dp"
+
+        app:layout_constraintBottom_toBottomOf="@id/tvInterlocutorDelimiter"
+        app:layout_constraintStart_toEndOf="@id/tvInterlocutorDelimiter"
+        app:layout_constraintTop_toTopOf="@id/tvInterlocutorDelimiter"
+
+        tools:text="User title" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clMessageRoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/half_default_margin"
+        android:background="@drawable/message_background_you"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/civInterlocutorPic">
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:maxWidth="238dp"
+            android:padding="10dp"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/increased_text"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvMessageTimestamp"
+
+            tools:text="Hi, joe how are you, do you like to join our party in next week because you don't like party?" />
+        <!-- TODO set proper place for the timestamp -->
+
+        <TextView
+            android:id="@+id/tvMessageTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:paddingBottom="4dp"
+            android:paddingEnd="5dp"
+
+            app:layout_constraintBottom_toBottomOf="@id/tvMessage"
+            app:layout_constraintStart_toEndOf="@id/tvMessage"
+
+            tools:text="3:24 AM" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
