@@ -46,6 +46,10 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
         }
     }
 
+    override suspend fun signOut() {
+        auth.signOut()
+    }
+
     override fun getChatRooms(): Flow<QuerySnapshot> =
         firestore.collection(CHAT_ROOMS_KEY)
             .orderBy("created_at", Query.Direction.DESCENDING)
@@ -60,7 +64,7 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
         val newMessage = generateRandomMessage()
 
         val addChatRoomRef = getAddChatRoomRef(newChatRoom.id)
-        val sendMessageRef = getSendMessageRef(newMessage.id, newChatRoom.id)
+        val sendMessageRef = getAddMessageRef(newMessage.id, newChatRoom.id)
 
         firestore.runBatch { batch ->
             batch.set(addChatRoomRef, newChatRoom)
@@ -80,7 +84,13 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
             .snapshotAsFlow()
 
     override suspend fun addMessage(message: Message, chatRoomId: String) {
-        getSendMessageRef(message.id, chatRoomId).set(message).await()
+        val addMessageRef = getAddMessageRef(message.id, chatRoomId)
+        val chatRoomRef = firestore.collection(CHAT_ROOMS_KEY).document(chatRoomId)
+
+        firestore.runBatch { batch ->
+            batch.set(addMessageRef, message)
+            batch.update(chatRoomRef, LAST_MESSAGE_KEY, message.body)
+        }.await()
     }
 
     private suspend fun generateRandomChatRoom(): ChatRoom {
@@ -114,7 +124,7 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
     private fun getAddChatRoomRef(chatRoomId: String): DocumentReference =
         firestore.collection(CHAT_ROOMS_KEY).document(chatRoomId)
 
-    private fun getSendMessageRef(messageId: String, chatRoomId: String) =
+    private fun getAddMessageRef(messageId: String, chatRoomId: String) =
         firestore.collection(CHAT_ROOMS_KEY)
             .document(chatRoomId)
             .collection(MESSAGES_KEY)
@@ -123,6 +133,7 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
     companion object {
         private const val CHAT_ROOMS_KEY = "ChatRooms"
         private const val MESSAGES_KEY = "Messages"
+        const val LAST_MESSAGE_KEY = "last_message"
 
         private const val ENTRY_MESSAGE = "No messages yet (:"
     }

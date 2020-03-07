@@ -5,6 +5,8 @@ import com.gmail.danylooliinyk.android.base.view.adapter.DelegateAdapterItemDefa
 import com.gmail.danylooliinyk.android.sorbet.R
 import com.gmail.danylooliinyk.android.sorbet.data.model.Message
 import com.google.firebase.auth.FirebaseAuth
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * MessageItemMe
@@ -18,6 +20,10 @@ class MessageItemYou(
         with(viewHolder.containerView) {
             findViewById<TextView>(R.id.tvMessage).text = item.body
             findViewById<TextView>(R.id.tvInterlocutorName).text = item.sender
+
+            val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+            val timestamp = dateFormat.format(item.createdAt.toDate())
+            findViewById<TextView>(R.id.tvMessageTimestamp).text = timestamp
         }
 
     override fun onRecycled(holder: KViewHolder<Message>) {}

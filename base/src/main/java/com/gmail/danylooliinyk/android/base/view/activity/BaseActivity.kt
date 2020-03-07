@@ -27,11 +27,6 @@ abstract class BaseActivity(
         super.onCreate(savedInstanceState)
 
         init(savedInstanceState)
-    }
-
-    override fun onStart() {
-        super.onStart()
-
         setupVMStateObservers()
     }
 

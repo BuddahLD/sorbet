@@ -15,6 +15,12 @@ import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoo
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.ChatRoomListFragment
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVMDefault
+import com.gmail.danylooliinyk.android.sorbet.ui.signIn.SignInFragment
+import com.gmail.danylooliinyk.android.sorbet.ui.signIn.viewmodel.SignInVM
+import com.gmail.danylooliinyk.android.sorbet.ui.signIn.viewmodel.SignInVMDefault
+import com.gmail.danylooliinyk.android.sorbet.ui.signOut.SignOutFragment
+import com.gmail.danylooliinyk.android.sorbet.ui.signOut.viewmodel.SignOutVM
+import com.gmail.danylooliinyk.android.sorbet.ui.signOut.viewmodel.SignOutVMDefault
 import com.gmail.danylooliinyk.android.sorbet.util.PictureProvider
 import com.gmail.danylooliinyk.android.sorbet.util.PictureProviderUiAvatars
 import com.gmail.danylooliinyk.android.sorbet.util.ResourcesUtil
@@ -37,13 +43,19 @@ val commonModule: Module = module {
 }
 
 val chatRoomModule: Module = moduleWithScope(named<ChatRoomFragment>()) {
-    scoped { MediatorLiveData<ChatRoomVM.State>() }
     scoped { MessagesRepositoryDefault(get()) as MessagesRepository }
-    viewModel { ChatRoomVMDefault(get(), get(), get()) as ChatRoomVM }
+    viewModel { ChatRoomVMDefault(get(), get()) as ChatRoomVM }
 }
 
 val chatRoomListModule: Module = moduleWithScope(named<ChatRoomListFragment>()) {
-    scoped { MediatorLiveData<ChatRoomListVM.State>() }
     scoped { ChatRoomRepositoryDefault(get()) as ChatRoomRepository }
-    viewModel { ChatRoomListVMDefault(get(), get()) as ChatRoomListVM }
+    viewModel { ChatRoomListVMDefault(get()) as ChatRoomListVM }
+}
+
+val signInModule: Module = moduleWithScope(named<SignInFragment>()) {
+    viewModel { SignInVMDefault(get()) as SignInVM }
+}
+
+val signOutModule: Module = moduleWithScope(named<SignOutFragment>()) {
+    viewModel { SignOutVMDefault(get()) as SignOutVM }
 }

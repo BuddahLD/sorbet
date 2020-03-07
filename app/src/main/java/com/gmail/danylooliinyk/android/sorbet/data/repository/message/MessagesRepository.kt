@@ -12,20 +12,20 @@ interface MessagesRepository {
     /**
      * Returns all messages list. On snapshot changes returns whole list as well.
      */
-    fun getMessages(chatRoomId: String): Flow<ChatRoomVM.State>
+    fun getMessages(chatRoomId: String): Flow<ChatRoomVM.StateGetMessages>
 
     /**
      * Returns only difference of a snapshot changes.
      */
-    fun getMessagesDiff(chatRoomId: String): Flow<ChatRoomVM.State>
+    fun getMessagesDiff(chatRoomId: String): Flow<ChatRoomVM.StateGetMessages>
 
     /**
      * Returns messages page with a provided [size].
      */
-    fun getMessagesPage(size: Int): Flow<ChatRoomVM.State>
+    fun getMessagesPage(size: Int): Flow<ChatRoomVM.StateGetMessages>
 
     /**
      * Adds a [Message] to the firestore with provided [message].
      */
-    fun sendMessage(message: Message, chatRoomId: String): Flow<ChatRoomVM.State>
+    suspend fun sendMessage(message: Message, chatRoomId: String)
 }

@@ -1,6 +1,7 @@
 package com.gmail.danylooliinyk.android.sorbet.data.model
 
 import android.os.Parcelable
+import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApiDefault
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.PropertyName
 import kotlinx.android.parcel.Parcelize
@@ -23,7 +24,7 @@ data class ChatRoom(
     val createdAt: Timestamp = Timestamp.now(),
 
     @JvmField
-    @PropertyName("last_message")
+    @PropertyName(FirestoreApiDefault.LAST_MESSAGE_KEY)
     val lastMessage: String = "",
 
     @JvmField

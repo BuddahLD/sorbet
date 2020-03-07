@@ -1,49 +1,38 @@
 package com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.gmail.danylooliinyk.android.sorbet.data.repository.chatRoom.ChatRoomRepository
+import com.gmail.danylooliinyk.android.sorbet.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * ChatRoomListVM Default
  */
 class ChatRoomListVMDefault(
-    private val state: MediatorLiveData<State>,
     private val repository: ChatRoomRepository
 ) : ChatRoomListVM() {
+
+    private val _liveAddChatRoom = SingleLiveEvent<StateAddChatRoom>()
+    override val liveAddChatRoom: LiveData<StateAddChatRoom>
+        get() = _liveAddChatRoom
+
+    private val _liveGetChatRoom = MediatorLiveData<StateGetChatRooms>()
+    override val liveGetChatRoom: LiveData<StateGetChatRooms>
+        get() = _liveGetChatRoom
 
     override fun getChatRooms() {
         val liveData = repository.getChatRooms().asLiveData(
             viewModelScope.coroutineContext + Dispatchers.IO
         )
-        state.addSource(liveData) { value -> state.setValue(value) }
-    }
-
-    override fun getChatRoomsDiff() {
-        val liveData = repository.getChatRoomsDiff().asLiveData(
-            viewModelScope.coroutineContext + Dispatchers.IO
-        )
-        state.addSource(liveData) { value -> state.setValue(value) }
-    }
-
-    override fun getChatRoomsPage(size: Int) {
-        val liveData = repository.getChatRoomsPage(size)
-            .asLiveData(
-                viewModelScope.coroutineContext + Dispatchers.IO
-            )
-        state.addSource(liveData) { value -> state.setValue(value) }
+        _liveGetChatRoom.addSource(liveData) { value -> _liveGetChatRoom.setValue(value) }
     }
 
     override fun addRandomChatRoom() {
-        val liveData = repository.addRandomChatRoom()
-            .asLiveData(
-                viewModelScope.coroutineContext + Dispatchers.IO
-            )
-        state.addSource(liveData) { value -> state.setValue(value) }
+        viewModelScope.launch(Dispatchers.IO) {
+            _liveAddChatRoom.value = StateAddChatRoom.OnLoading
+            repository.addRandomChatRoom()
+            _liveAddChatRoom.value = StateAddChatRoom.OnChatRoomAdded
+        }
     }
-
-    override fun getState(): LiveData<State> = state
 }

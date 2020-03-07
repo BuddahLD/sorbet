@@ -4,7 +4,6 @@ import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApi
 import com.gmail.danylooliinyk.android.sorbet.data.model.Message
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVM
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.transform
 
 /**
@@ -14,31 +13,26 @@ class MessagesRepositoryDefault(
     private val firestoreApi: FirestoreApi
 ): MessagesRepository {
 
-    override fun getMessages(chatRoomId: String): Flow<ChatRoomVM.State> =
+    override fun getMessages(chatRoomId: String): Flow<ChatRoomVM.StateGetMessages> =
         firestoreApi.getMessages(chatRoomId).transform {
-        emit(ChatRoomVM.State.OnLoading)
+        emit(ChatRoomVM.StateGetMessages.OnLoading)
         val chatRooms = it.toObjects(Message::class.java)
-        emit(ChatRoomVM.State.OnGetMessagesSuccess(chatRooms))
+        emit(ChatRoomVM.StateGetMessages.OnGetMessagesSuccess(chatRooms))
     }
 
-    override fun getMessagesDiff(chatRoomId: String): Flow<ChatRoomVM.State> =
+    override fun getMessagesDiff(chatRoomId: String): Flow<ChatRoomVM.StateGetMessages> =
         firestoreApi.getMessages(chatRoomId).transform { query ->
-            emit(ChatRoomVM.State.OnLoading)
+            emit(ChatRoomVM.StateGetMessages.OnLoading)
             val changedDocuments = query.documentChanges.map { documentChange ->
                 documentChange.document.toObject(Message::class.java)
             }
-            emit(ChatRoomVM.State.OnGetMessagesSuccess(changedDocuments))
+            emit(ChatRoomVM.StateGetMessages.OnGetMessagesSuccess(changedDocuments))
         }
 
-    override fun getMessagesPage(size: Int): Flow<ChatRoomVM.State> {
+    override fun getMessagesPage(size: Int): Flow<ChatRoomVM.StateGetMessages> {
         throw NotImplementedError("getMessagesPage")
     }
 
-    override fun sendMessage(message: Message, chatRoomId: String): Flow<ChatRoomVM.State> = flow {
-        emit(ChatRoomVM.State.OnLoading)
+    override suspend fun sendMessage(message: Message, chatRoomId: String) =
         firestoreApi.addMessage(message, chatRoomId)
-        emit(ChatRoomVM.State.OnMessageSent)
-    }
-
-
 }

@@ -4,7 +4,6 @@ import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApi
 import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.transform
 
 /**
@@ -13,37 +12,29 @@ import kotlinx.coroutines.flow.transform
 @Suppress("EXPERIMENTAL_API_USAGE")
 class ChatRoomRepositoryDefault(
     private val firestoreApi: FirestoreApi
-): ChatRoomRepository {
+) : ChatRoomRepository {
 
-    override fun getChatRooms(): Flow<ChatRoomListVM.State> =
+    override fun getChatRooms(): Flow<ChatRoomListVM.StateGetChatRooms> =
         firestoreApi.getChatRooms().transform {
-            emit(ChatRoomListVM.State.OnLoading)
+            emit(ChatRoomListVM.StateGetChatRooms.OnLoading)
             val chatRooms = it.toObjects(ChatRoom::class.java)
-            emit(ChatRoomListVM.State.OnGetChatRoomsSuccess(chatRooms))
+            emit(ChatRoomListVM.StateGetChatRooms.OnGetChatRoomsSuccess(chatRooms))
         }
 
-    override fun getChatRoomsDiff(): Flow<ChatRoomListVM.State> =
+    override fun getChatRoomsDiff(): Flow<ChatRoomListVM.StateGetChatRooms> =
         firestoreApi.getChatRooms().transform { query ->
-            emit(ChatRoomListVM.State.OnLoading)
+            emit(ChatRoomListVM.StateGetChatRooms.OnLoading)
             val changedDocuments = query.documentChanges.map { documentChange ->
                 documentChange.document.toObject(ChatRoom::class.java)
             }
-            emit(ChatRoomListVM.State.OnGetChatRoomsSuccess(changedDocuments))
-        }
+            emit(ChatRoomListVM.StateGetChatRooms.OnGetChatRoomsSuccess(changedDocuments))
+        } // TODO catch errors and transform to live data
 
-    override fun getChatRoomsPage(size: Int): Flow<ChatRoomListVM.State> {
-        throw NotImplementedError("getChatRoomsPage")  // TODO implement
+    override fun getChatRoomsPage(size: Int): Flow<ChatRoomListVM.StateGetChatRooms> {
+        throw NotImplementedError("getChatRoomsPage") // We can fetch paged results if needed
     }
 
-    override fun addRandomChatRoom(): Flow<ChatRoomListVM.State> = flow {
-            emit(ChatRoomListVM.State.OnLoading)
-            firestoreApi.addRandomChatRoom()
-            emit(ChatRoomListVM.State.OnChatRoomAdded)
-        }
+    override suspend fun addRandomChatRoom() = firestoreApi.addRandomChatRoom()
 
-    override fun addChatRoom(chatRoom: ChatRoom): Flow<ChatRoomListVM.State> = flow {
-        emit(ChatRoomListVM.State.OnLoading)
-        firestoreApi.addChatRoom(chatRoom)
-        emit(ChatRoomListVM.State.OnChatRoomAdded)
-    }
+    override suspend fun addChatRoom(chatRoom: ChatRoom) = firestoreApi.addChatRoom(chatRoom)
 }

@@ -1,136 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="chatRoomVM"
+            type="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVMDefault" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        android:background="@color/primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
 
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="@dimen/toolbar_icon_size"
-            android:layout_height="@dimen/toolbar_icon_size"
-            android:layout_marginStart="@dimen/default_margin"
-            android:contentDescription="@string/previous_screen_button"
-            android:src="@drawable/ic_arrow_back"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/primary"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/civUserPic"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="@dimen/default_margin"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/toolbar_icon_size"
+                android:layout_height="@dimen/toolbar_icon_size"
+                android:layout_marginStart="@dimen/default_margin"
+                android:contentDescription="@string/previous_screen_button"
+                android:src="@drawable/ic_arrow_back"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civGroupPic"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/default_margin"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivBack"
+                app:layout_constraintTop_toTopOf="parent"
+
+                tools:src="@drawable/ic_account_circle_24px" />
+
+            <TextView
+                android:id="@+id/tvGroupName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/half_default_margin"
+                android:ellipsize="end"
+                android:maxWidth="230dp"
+                android:maxLines="1"
+                android:textColor="@color/snow"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/civGroupPic"
+                app:layout_constraintTop_toTopOf="parent"
+
+                tools:text="Here is group name that should not be too long or ellipsise in the end" />
+
+            <ImageView
+                android:id="@+id/ivMore"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:src="@drawable/ic_more"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMessages"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/clEnterMessage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clEnterMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/primary_dark"
+            android:minHeight="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivBack"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvMessages">
 
-            tools:src="@drawable/ic_account_circle_24px" />
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:background="@drawable/rect_trans"
+                android:hint="@string/message"
+                android:inputType="textMultiLine"
+                android:maxLines="6"
+                android:paddingTop="@dimen/half_default_margin"
+                android:paddingBottom="@dimen/half_default_margin"
+                android:textColor="@color/snow"
+                android:textColorHint="@color/gray_light"
+                android:textSize="@dimen/increased_text"
+                android:text="@={chatRoomVM.messageEdit}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivSend"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvGroupName"
+            <ImageView
+                android:id="@+id/ivSend"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="12dp"
+                android:contentDescription="@string/send_message_button"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:src="@drawable/ic_send"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/half_default_margin"
-            android:ellipsize="end"
-            android:maxWidth="230dp"
-            android:maxLines="1"
-            android:textColor="@color/snow"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/civUserPic"
-            app:layout_constraintTop_toTopOf="parent"
-
-            tools:text="Here is group name that should not be too long or ellipsise in the end" />
-
-        <ImageView
-            android:id="@+id/ivMore"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="@dimen/default_margin"
-            android:src="@drawable/ic_more"
+            android:visibility="invisible"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMessages"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/clEnterMessage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clEnterMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/primary_dark"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvMessages">
-
-        <EditText
-            android:id="@+id/etMessage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
-            android:background="@drawable/rect_trans"
-            android:hint="@string/message"
-            android:inputType="textMultiLine"
-            android:maxLines="6"
-            android:paddingTop="@dimen/half_default_margin"
-            android:paddingBottom="@dimen/half_default_margin"
-            android:textColor="@color/snow"
-            android:textColorHint="@color/gray_light"
-            android:textSize="@dimen/increased_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivSend"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivSend"
-            android:layout_width="56dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="12dp"
-            android:contentDescription="@string/send_message_button"
-            android:paddingStart="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin"
-            android:src="@drawable/ic_send"
-            android:tint="@color/gray_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ProgressBar
-        android:id="@+id/pbLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

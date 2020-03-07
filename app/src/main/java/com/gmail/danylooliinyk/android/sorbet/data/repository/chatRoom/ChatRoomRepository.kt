@@ -12,25 +12,25 @@ interface ChatRoomRepository {
     /**
      * Returns all chat rooms list. On snapshot changes returns whole list as well.
      */
-    fun getChatRooms(): Flow<ChatRoomListVM.State>
+    fun getChatRooms(): Flow<ChatRoomListVM.StateGetChatRooms>
 
     /**
      * Returns only difference of a snapshot changes.
      */
-    fun getChatRoomsDiff(): Flow<ChatRoomListVM.State>
+    fun getChatRoomsDiff(): Flow<ChatRoomListVM.StateGetChatRooms>
 
     /**
      * Returns chat rooms page with a provided [size].
      */
-    fun getChatRoomsPage(size: Int): Flow<ChatRoomListVM.State>
+    fun getChatRoomsPage(size: Int): Flow<ChatRoomListVM.StateGetChatRooms>
 
     /**
      * Adds a [ChatRoom] to the firestore with randomly generated parameters.
      */
-    fun addRandomChatRoom(): Flow<ChatRoomListVM.State>
+    suspend fun addRandomChatRoom()
 
     /**
      * Adds a [ChatRoom] to the firestore with provided [chatRoom].
      */
-    fun addChatRoom(chatRoom: ChatRoom): Flow<ChatRoomListVM.State>
+    suspend fun addChatRoom(chatRoom: ChatRoom)
 }

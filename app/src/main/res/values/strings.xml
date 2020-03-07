@@ -16,11 +16,20 @@
     <string name="search_button">Search button</string>
     <string name="info_button">Info button</string>
 
+    <!-- Sign In -->
+    <string name="sign_in">Sign In</string>
+    <string name="please_sign_in">Please, sign in.</string>
+
+    <!-- Sign Out -->
+    <string name="sign_out">Sign Out</string>
+    <string name="you_can_sign_out">You can sign out below.</string>
+
     <!-- Sorbet Activity -->
     <string name="press_back_once_more">Press back once more to exit</string>
 
     <!-- Chat room list -->
     <string name="create_new_chat">Create new chat</string>
+    <string name="title">Chat rooms</string>
 
     <!-- Chat room -->
     <string name="message">Type your message</string>

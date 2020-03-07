@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/chatRoomListFragment">
+    app:startDestination="@id/signInFragment">
 
     <fragment
         android:id="@+id/chatRoomListFragment"
         android:name="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.ChatRoomListFragment"
-        android:label="ChatRoomListFragment" >
+        android:label="ChatRoomListFragment">
         <action
             android:id="@+id/action_chatRoomListFragment_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment"
@@ -38,7 +38,29 @@
         android:name="com.gmail.danylooliinyk.android.sorbet.ui.stubs.StubFragmentThree"
         android:label="StubFragmentThree" />
     <fragment
-        android:id="@+id/stubFragmentFour"
-        android:name="com.gmail.danylooliinyk.android.sorbet.ui.stubs.StubFragmentFour"
-        android:label="StubFragmentFour" />
+        android:id="@+id/signInFragment"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.signIn.SignInFragment"
+        android:label="SignInFragment" >
+        <action
+            android:id="@+id/action_signInFragment_to_chatRoomListFragment"
+            app:destination="@id/chatRoomListFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/signOutFragment"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.signOut.SignOutFragment"
+        android:label="SignOutFragment" >
+        <action
+            android:id="@+id/action_signOutFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

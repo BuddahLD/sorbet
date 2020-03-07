@@ -71,7 +71,7 @@ class SorbetActivity : AppCompatActivity() {
     private fun setNavControllerListener(navController: NavController) {
         this.navListener = NavController.OnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.chatRoomFragment -> showBottomNavigation(false, bottomNavigation)
+                R.id.chatRoomFragment, R.id.signInFragment -> showBottomNavigation(false, bottomNavigation)
                 else -> showBottomNavigation(true, bottomNavigation)
             }
         }.also { listener ->

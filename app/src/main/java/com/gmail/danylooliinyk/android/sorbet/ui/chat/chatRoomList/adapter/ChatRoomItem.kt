@@ -6,14 +6,15 @@ import com.bumptech.glide.Glide
 import com.gmail.danylooliinyk.android.sorbet.R
 import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 import com.gmail.danylooliinyk.android.base.view.adapter.DelegateAdapterItemDefault
+import com.gmail.danylooliinyk.android.sorbet.util.SingleLiveEvent
 import de.hdodenhof.circleimageview.CircleImageView
 
 /**
  * ContactItem
  */
 class ChatRoomItem(
-        private val actionLiveData: MutableLiveData<Action>,
-        override val layoutResourceId: Int = R.layout.item_chat_room
+    private val actionLiveData: SingleLiveEvent<Action>,
+    override val layoutResourceId: Int = R.layout.item_chat_room
 ) : DelegateAdapterItemDefault<ChatRoom>() {
 
     override fun onBind(item: ChatRoom, viewHolder: KViewHolder<ChatRoom>) =
