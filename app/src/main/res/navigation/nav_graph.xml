@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.ChatRoomFragment"
-        android:label="ChatRoomFragment" >
+        android:label="ChatRoomFragment">
         <argument
             android:name="chatRoom"
             app:argType="com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom" />
@@ -46,27 +46,29 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="com.gmail.danylooliinyk.android.sorbet.ui.signIn.SignInFragment"
-        android:label="SignInFragment" >
+        android:label="SignInFragment">
         <action
             android:id="@+id/action_signInFragment_to_chatRoomListFragment"
             app:destination="@id/chatRoomListFragment"
+            app:popUpTo="@id/signInFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signOutFragment"
         android:name="com.gmail.danylooliinyk.android.sorbet.ui.signOut.SignOutFragment"
-        android:label="SignOutFragment" >
+        android:label="SignOutFragment">
         <action
             android:id="@+id/action_signOutFragment_to_signInFragment"
             app:destination="@id/signInFragment"
             app:enterAnim="@anim/slide_in_from_bottom"
             app:exitAnim="@anim/slide_out_to_top"
+            app:popUpTo="@id/chatRoomListFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/chatRoomEditFragment"
         android:name="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomEdit.ChatRoomEditFragment"
-        android:label="ChatRoomEditFragment" >
+        android:label="ChatRoomEditFragment">
         <argument
             android:name="chatRoom"
             app:argType="com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom" />

@@ -32,7 +32,6 @@
             app:layout_constraintTop_toTopOf="parent"
 
             tools:text="Hi, joe how are you, do you like to join our party in next week because you don't like party?" />
-        <!-- TODO set proper place for the timestamp -->
 
         <TextView
             android:id="@+id/tvMessageTimestamp"

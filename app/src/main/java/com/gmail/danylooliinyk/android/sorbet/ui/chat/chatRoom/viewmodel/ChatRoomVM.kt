@@ -26,6 +26,7 @@ abstract class ChatRoomVM : ViewModel() {
         object OnLoading : StateGetChatRoom()
         data class OnGetChatRoomSuccess(val chatRoom: ChatRoom) : StateGetChatRoom()
         data class OnGetChatRoomError(val throwable: Throwable) : StateGetChatRoom()
+        object OnChatRoomDeleted : StateGetChatRoom()
     }
 
     sealed class StateChatRoomDelete {

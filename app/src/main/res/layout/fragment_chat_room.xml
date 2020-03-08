@@ -51,17 +51,18 @@
 
             <TextView
                 android:id="@+id/tvGroupName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
                 android:ellipsize="end"
-                android:maxWidth="230dp"
                 android:maxLines="1"
                 android:textColor="@color/snow"
 
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/civGroupPic"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivMore"
 
                 tools:text="Here is group name that should not be too long or ellipsise in the end" />
 

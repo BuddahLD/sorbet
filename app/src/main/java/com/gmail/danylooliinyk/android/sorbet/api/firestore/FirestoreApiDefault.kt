@@ -94,7 +94,6 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
             batch.set(addMessageRef, message)
             batch.update(chatRoomRef, ChatRoom.LAST_MESSAGE_KEY, message.body)
         }.await()
-        // TODO move to ktx https://firebaseopensource.com/projects/firebase/firebase-android-sdk/docs/ktx/firestore.md/
     }
 
     override suspend fun deleteChatRoom(chatRoomId: String) {

@@ -213,19 +213,24 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
         }
     }
 
-    private fun onStateGetChatRoomChanged(state: ChatRoomVM.StateGetChatRoom) = when (state) {
-        is ChatRoomVM.StateGetChatRoom.OnLoading -> showLoading(pbLoading, true)
-        is ChatRoomVM.StateGetChatRoom.OnGetChatRoomSuccess -> {
-            showLoading(pbLoading, false)
-            setupToolbar(state.chatRoom)
-        }
-        is ChatRoomVM.StateGetChatRoom.OnGetChatRoomError -> {
-            showLoading(pbLoading, false)
-            UiUtils.showSnackbar(
-                requireView(),
-                state.throwable.localizedMessage
-                    ?: "Unhandled error. Contact developer, please."
-            )
+    private fun onStateGetChatRoomChanged(state: ChatRoomVM.StateGetChatRoom) {
+        when (state) {
+            is ChatRoomVM.StateGetChatRoom.OnLoading -> showLoading(pbLoading, true)
+            is ChatRoomVM.StateGetChatRoom.OnGetChatRoomSuccess -> {
+                showLoading(pbLoading, false)
+                setupToolbar(state.chatRoom)
+            }
+            is ChatRoomVM.StateGetChatRoom.OnGetChatRoomError -> {
+                showLoading(pbLoading, false)
+                UiUtils.showSnackbar(
+                    requireView(),
+                    state.throwable.localizedMessage
+                        ?: "Unhandled error. Contact developer, please."
+                )
+            }
+            is ChatRoomVM.StateGetChatRoom.OnChatRoomDeleted -> {
+                activity?.onBackPressed()
+            }
         }
     }
 

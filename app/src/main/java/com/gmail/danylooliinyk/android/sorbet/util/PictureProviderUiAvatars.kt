@@ -39,7 +39,7 @@ class PictureProviderUiAvatars(
 
             append("&")
 
-            append("$BACKGROUND_KEY=$randomColor") // TODO get randomly one color
+            append("$BACKGROUND_KEY=$randomColor")
         }.toString()
     }
 

@@ -27,6 +27,11 @@ class ChatRoomRepositoryDefault(
 
     override fun getChatRoom(chatRoomId: String): Flow<ChatRoomVM.StateGetChatRoom> =
         firestoreApi.getChatRoom(chatRoomId).transform {
+            if (!it.exists()) {
+                emit(ChatRoomVM.StateGetChatRoom.OnChatRoomDeleted)
+                return@transform
+            }
+
             emit(ChatRoomVM.StateGetChatRoom.OnLoading)
             val chatRoom = it.toObject(ChatRoom::class.java)
                 ?: error("ChatRoom with id: \'$chatRoomId\' has not been found.")
@@ -46,7 +51,7 @@ class ChatRoomRepositoryDefault(
             emit(ChatRoomListVM.StateGetChatRooms.OnGetChatRoomsError(it))
         }
 
-    // TODO catch errors and transform to live data
+    // TODO catch errors in suspend funcs
 
     override fun getChatRoomsPage(size: Int): Flow<ChatRoomListVM.StateGetChatRooms> {
         throw NotImplementedError("getChatRoomsPage") // We can fetch paged results if needed

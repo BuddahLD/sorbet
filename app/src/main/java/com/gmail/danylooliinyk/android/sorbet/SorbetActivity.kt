@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.addListener
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.gmail.danylooliinyk.android.sorbet.ui.signOut.SignOutFragmentDirections
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -46,7 +48,9 @@ class SorbetActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val navController = findNavController(R.id.fNavHost)
 
-        if (navController.graph.startDestination == navController.currentDestination?.id) {
+        if (navController.currentDestination?.id == R.id.chatRoomListFragment || // FIXME don't add to backstack everything (e.g. bottom navigation fragments)
+                navController.currentDestination?.id == R.id.signInFragment) {
+
             if (backPressed) {
                 super.onBackPressed()
                 return
