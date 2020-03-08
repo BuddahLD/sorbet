@@ -28,14 +28,25 @@ abstract class ChatRoomVM : ViewModel() {
         data class OnGetChatRoomError(val throwable: Throwable) : StateGetChatRoom()
     }
 
+    sealed class StateChatRoomDelete {
+        object OnLoading : StateChatRoomDelete()
+        object OnChatRoomDeleteSuccess : StateChatRoomDelete()
+        data class OnChatRoomDeleteError(val throwable: Throwable) : StateChatRoomDelete()
+    }
+
+    abstract var currentChatRoom: ChatRoom
+
     abstract val messageEdit: LiveData<String>
     abstract val liveGetMessages: LiveData<StateGetMessages>
     abstract val liveSendMessage: LiveData<StateSendMessage>
     abstract val liveGetChatRoom: LiveData<StateGetChatRoom>
+    abstract val liveChatRoomDelete: LiveData<StateChatRoomDelete>
 
     abstract fun getMessages()
 
     abstract fun sendMessage(text: String)
 
-    abstract fun getChatRoom(chatRoomId: String)
+    abstract fun getChatRoom()
+
+    abstract fun deleteChatRoom()
 }

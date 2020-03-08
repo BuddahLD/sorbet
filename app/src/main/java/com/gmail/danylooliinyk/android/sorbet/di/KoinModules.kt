@@ -11,6 +11,9 @@ import com.gmail.danylooliinyk.android.sorbet.data.repository.message.MessagesRe
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.ChatRoomFragment
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVM
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVMDefault
+import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomEdit.ChatRoomEditFragment
+import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomEdit.viewmodel.ChatRoomEditVM
+import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomEdit.viewmodel.ChatRoomEditVMDefault
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.ChatRoomListFragment
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVMDefault
@@ -33,21 +36,25 @@ import org.koin.dsl.module
 /**
  * KoinModules
  */
-val commonModule: Module = module {
+val firebaseModule: Module = module {
     single { FuelApiDefault() as FuelApi }
     single { FirebaseAuth.getInstance() }
-    single { ResourcesUtil(get()) }
-    single { PictureProviderUiAvatars(get()) as PictureProvider }
     single { FirestoreApiDefault(get(), get()) as FirestoreApi }
 }
 
+val commonModule: Module = module {
+    single { ResourcesUtil(get()) }
+    single { PictureProviderUiAvatars(get()) as PictureProvider }
+
+    single { ChatRoomRepositoryDefault(get()) as ChatRoomRepository }
+    single { MessagesRepositoryDefault(get()) as MessagesRepository }
+}
+
 val chatRoomModule: Module = moduleWithScope(named<ChatRoomFragment>()) {
-    scoped { MessagesRepositoryDefault(get()) as MessagesRepository }
     viewModel { ChatRoomVMDefault(get(), get(), get()) as ChatRoomVM }
 }
 
 val chatRoomListModule: Module = moduleWithScope(named<ChatRoomListFragment>()) {
-    scoped { ChatRoomRepositoryDefault(get()) as ChatRoomRepository }
     viewModel { ChatRoomListVMDefault(get()) as ChatRoomListVM }
 }
 
@@ -57,4 +64,8 @@ val signInModule: Module = moduleWithScope(named<SignInFragment>()) {
 
 val signOutModule: Module = moduleWithScope(named<SignOutFragment>()) {
     viewModel { SignOutVMDefault(get()) as SignOutVM }
+}
+
+val chatRoomEditModule: Module = moduleWithScope(named<ChatRoomEditFragment>()) {
+    viewModel { ChatRoomEditVMDefault(get()) as ChatRoomEditVM }
 }

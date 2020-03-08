@@ -1,6 +1,7 @@
 package com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom
 
 import android.content.Context
+import android.graphics.Point
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -31,7 +33,7 @@ import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.adapter.MessageIt
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVM
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVMDefault
 import com.gmail.danylooliinyk.android.sorbet.util.UiUtils
-import com.google.android.material.snackbar.Snackbar
+import com.gmail.danylooliinyk.android.sorbet.util.view.MenuPopup
 import com.google.firebase.auth.FirebaseAuth
 import de.hdodenhof.circleimageview.CircleImageView
 import org.koin.android.ext.android.inject
@@ -73,6 +75,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
         observe(vm.liveGetMessages, ::onStateChanged)
         observe(vm.liveSendMessage, ::onStateSendMessageChanged)
         observe(vm.liveGetChatRoom, ::onStateGetChatRoomChanged)
+        observe(vm.liveChatRoomDelete, ::onStateChatRoomDeleteChanged)
     }
 
     override fun initViewBinding(
@@ -116,8 +119,9 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
     }
 
     override fun initData() {
-        val chatRoom = ChatRoomFragmentArgs.fromBundle(requireArguments()).chatRoom
-        vm.getChatRoom(chatRoom.id)
+        vm.currentChatRoom = ChatRoomFragmentArgs.fromBundle(requireArguments()).chatRoom
+
+        vm.getChatRoom()
         vm.getMessages()
     }
 
@@ -133,8 +137,30 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
 
         tvGroupName.text = chatRoom.friendlyName
         ivMore.setOnClickListener {
-            Snackbar.make(requireView(), "More clicked", Snackbar.LENGTH_SHORT).show()
+            showMenu()
         }
+    }
+
+    private fun showMenu() {
+        val menu = MenuPopup()
+        menu.setOnClickListener {
+            when (it.id) {
+                R.id.tvMenuItemEdit -> {
+                    val direction =
+                        ChatRoomFragmentDirections.actionChatRoomFragmentToChatRoomEditFragment(vm.currentChatRoom)
+                    findNavController().navigate(direction)
+                }
+                R.id.tvMenuItemDelete -> {
+                    vm.deleteChatRoom()
+                }
+            }
+        }
+        menu.setupPopup(requireContext())
+        val pointToShow = Point(
+            ivMore.x.toInt() + UiUtils.pixelsToDp(ivMore.width, requireContext()),
+            ivMore.y.toInt()
+        )
+        menu.showPopup(pointToShow)
     }
 
     private fun onStateChanged(state: ChatRoomVM.StateGetMessages) = when (state) {
@@ -188,6 +214,24 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
                 state.throwable.localizedMessage
                     ?: "Unhandled error. Contact developer, please."
             )
+        }
+    }
+
+    private fun onStateChatRoomDeleteChanged(state: ChatRoomVM.StateChatRoomDelete) {
+        when (state) {
+            is ChatRoomVM.StateChatRoomDelete.OnLoading -> showLoading(pbLoading, true)
+            is ChatRoomVM.StateChatRoomDelete.OnChatRoomDeleteSuccess -> {
+                showLoading(pbLoading, false)
+                activity?.onBackPressed() // TODO handle when other people in deleted chat room exit from it for them
+            }
+            is ChatRoomVM.StateChatRoomDelete.OnChatRoomDeleteError -> {
+                showLoading(pbLoading, false)
+                UiUtils.showSnackbar(
+                    requireView(),
+                    state.throwable.localizedMessage
+                        ?: "Unhandled error. Contact developer, please."
+                )
+            }
         }
     }
 

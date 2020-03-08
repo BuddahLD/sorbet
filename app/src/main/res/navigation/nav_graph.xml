@@ -24,6 +24,9 @@
         <argument
             android:name="chatRoom"
             app:argType="com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom" />
+        <action
+            android:id="@+id/action_chatRoomFragment_to_chatRoomEditFragment"
+            app:destination="@id/chatRoomEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/stubFragmentOne"
@@ -62,5 +65,13 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatRoomEditFragment"
+        android:name="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomEdit.ChatRoomEditFragment"
+        android:label="ChatRoomEditFragment" >
+        <argument
+            android:name="chatRoom"
+            app:argType="com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom" />
     </fragment>
 </navigation>

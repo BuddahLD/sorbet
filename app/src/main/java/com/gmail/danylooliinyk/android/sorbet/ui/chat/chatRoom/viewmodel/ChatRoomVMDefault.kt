@@ -21,8 +21,6 @@ class ChatRoomVMDefault(
     private val chatRoomRepository: ChatRoomRepository
 ) : ChatRoomVM() {
 
-    private lateinit var chatRoom: ChatRoom
-
     private val _liveGetMessages = MediatorLiveData<StateGetMessages>()
     override val liveGetMessages: LiveData<StateGetMessages>
         get() = _liveGetMessages
@@ -35,10 +33,16 @@ class ChatRoomVMDefault(
     override val liveGetChatRoom: LiveData<StateGetChatRoom>
         get() = _liveGetChatRoom
 
+    private val _liveChatRoomDelete = SingleLiveEvent<StateChatRoomDelete>()
+    override val liveChatRoomDelete: LiveData<StateChatRoomDelete>
+        get() = _liveChatRoomDelete
+
     override val messageEdit = MutableLiveData<String>() // TODO try make private
 
+    override lateinit var currentChatRoom: ChatRoom
+
     override fun getMessages() {
-        val liveData = messagesRepository.getMessages(chatRoom.id).asLiveData(
+        val liveData = messagesRepository.getMessages(currentChatRoom.id).asLiveData(
             viewModelScope.coroutineContext + Dispatchers.IO
         )
         _liveGetMessages.addSource(liveData) { value ->
@@ -57,20 +61,24 @@ class ChatRoomVMDefault(
                 Timestamp.now(),
                 auth.currentUser!!.uid
             )
-            messagesRepository.sendMessage(message, this@ChatRoomVMDefault.chatRoom.id)
+            messagesRepository.sendMessage(message, this@ChatRoomVMDefault.currentChatRoom.id)
             _liveSendMessage.value = StateSendMessage.OnMessageSent
         }
     }
 
-    override fun getChatRoom(chatRoomId: String) {
-        val liveData = chatRoomRepository.getChatRoom(chatRoomId).asLiveData(
+    override fun getChatRoom() {
+        val liveData = chatRoomRepository.getChatRoom(currentChatRoom.id).asLiveData(
             viewModelScope.coroutineContext + Dispatchers.IO
         )
         _liveGetChatRoom.addSource(liveData) { value ->
             if (value is StateGetChatRoom.OnGetChatRoomSuccess)
-                this.chatRoom = value.chatRoom
+                this.currentChatRoom = value.chatRoom
 
             _liveGetChatRoom.value = value
         }
+    }
+
+    override fun deleteChatRoom() {
+        // TODO Implement body or it will be empty ):
     }
 }

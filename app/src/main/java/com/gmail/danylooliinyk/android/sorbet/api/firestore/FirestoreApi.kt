@@ -28,5 +28,9 @@ interface FirestoreApi {
 
     suspend fun addMessage(message: Message, chatRoomId: String)
 
+    suspend fun deleteChatRoom(chatRoomId: String)
+
+    suspend fun editChatRoom(chatRoomId: String, editedChatRoom: ChatRoom)
+
     // TODO add encryption
 }

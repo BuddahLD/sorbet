@@ -1,7 +1,6 @@
 package com.gmail.danylooliinyk.android.sorbet.data.model
 
 import android.os.Parcelable
-import com.gmail.danylooliinyk.android.sorbet.api.firestore.FirestoreApiDefault
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.PropertyName
 import kotlinx.android.parcel.Parcelize
@@ -12,31 +11,45 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class ChatRoom(
     @JvmField
-    @PropertyName("id")
+    @PropertyName(ID_KEY)
     val id: String = "",
 
     @JvmField
-    @PropertyName("friendly_name")
+    @PropertyName(FRIENDLY_NAME_KEY)
     val friendlyName: String = "",
 
     @JvmField
-    @PropertyName("created_at")
+    @PropertyName(CREATED_AT_KEY)
     val createdAt: Timestamp = Timestamp.now(),
 
     @JvmField
-    @PropertyName(FirestoreApiDefault.LAST_MESSAGE_KEY)
+    @PropertyName(LAST_MESSAGE_KEY)
     val lastMessage: String = "",
 
     @JvmField
-    @PropertyName("members_count")
+    @PropertyName(MEMBERS_COUNT_KEY)
     val membersCount: String = "",
 
     @JvmField
-    @PropertyName("picture_path")
+    @PropertyName(PICTURE_PATH_KEY)
     val picturePath: String = ""
 ): Comparable<ChatRoom>, Parcelable {
 
+    fun getDifference(other: ChatRoom): Map<String, Any> {
+        val differences = mutableMapOf<String, Any>()
+
+        if (id != other.id) differences[ID_KEY] = other.id
+        if (friendlyName != other.friendlyName) differences[FRIENDLY_NAME_KEY] = other.friendlyName
+        if (createdAt != other.createdAt) differences[CREATED_AT_KEY] = other.createdAt
+        if (lastMessage != other.lastMessage) differences[LAST_MESSAGE_KEY] = other.lastMessage
+        if (membersCount != other.membersCount) differences[MEMBERS_COUNT_KEY] = other.membersCount
+        if (picturePath != other.picturePath) differences[PICTURE_PATH_KEY] = other.picturePath
+
+        return differences.toMap()
+    }
+
     override fun compareTo(other: ChatRoom): Int = this.id.compareTo(other.id)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -61,5 +74,14 @@ data class ChatRoom(
         result = 31 * result + membersCount.hashCode()
         result = 31 * result + picturePath.hashCode()
         return result
+    }
+
+    companion object {
+        const val ID_KEY = "id"
+        const val FRIENDLY_NAME_KEY = "friendly_name"
+        const val CREATED_AT_KEY = "created_at"
+        const val LAST_MESSAGE_KEY = "last_message"
+        const val MEMBERS_COUNT_KEY = "members_count"
+        const val PICTURE_PATH_KEY = "picture_path"
     }
 }

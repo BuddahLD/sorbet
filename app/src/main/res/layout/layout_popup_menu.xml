@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llPopupRoot"
+    android:layout_width="128dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rect_white_rounded_2"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/twenty_margin"
+    android:paddingTop="@dimen/twenty_margin">
+
+    <TextView
+        android:id="@+id/tvMenuItemEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:text="@string/edit"
+        android:textColor="@color/primary_dark"
+        android:textSize="@dimen/big_text" />
+
+    <TextView
+        android:id="@+id/tvMenuItemDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/twenty_margin"
+        android:text="@string/delete"
+        android:textColor="@color/attention"
+        android:textSize="@dimen/big_text" />
+
+</LinearLayout>

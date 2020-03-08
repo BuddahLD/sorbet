@@ -24,8 +24,14 @@ class SorbetApp : Application() { // TODO rename java to kotlin package
                 // Common
                 commonModule,
 
+                // Firebase
+                firebaseModule,
+
                 // Chat room
                 chatRoomModule,
+
+                // Chat room edit
+                chatRoomEditModule,
 
                 // Chat room list
                 chatRoomListModule,

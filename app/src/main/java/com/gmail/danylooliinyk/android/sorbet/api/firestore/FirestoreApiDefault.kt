@@ -92,9 +92,23 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
 
         firestore.runBatch { batch ->
             batch.set(addMessageRef, message)
-            batch.update(chatRoomRef, LAST_MESSAGE_KEY, message.body)
-        }
-            .await() // TODO move to https://firebaseopensource.com/projects/firebase/firebase-android-sdk/docs/ktx/firestore.md/
+            batch.update(chatRoomRef, ChatRoom.LAST_MESSAGE_KEY, message.body)
+        }.await()
+        // TODO move to ktx https://firebaseopensource.com/projects/firebase/firebase-android-sdk/docs/ktx/firestore.md/
+    }
+
+    override suspend fun deleteChatRoom(chatRoomId: String) {
+        firestore.collection(CHAT_ROOMS_KEY).document(chatRoomId).delete()
+    }
+
+    override suspend fun editChatRoom(chatRoomId: String, editedChatRoom: ChatRoom) {
+        val chatRoomRef = firestore.collection(CHAT_ROOMS_KEY).document(chatRoomId)
+        firestore.runTransaction {
+            val currentChatRoom = it.get(chatRoomRef).toObject(ChatRoom::class.java)
+                ?: error("No such chat room with id: \'$chatRoomId\'.")
+            val differences = currentChatRoom.getDifference(editedChatRoom)
+            it.update(chatRoomRef, differences)
+        }.await()
     }
 
     private suspend fun generateRandomChatRoom(): ChatRoom {
@@ -137,7 +151,6 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
     companion object {
         private const val CHAT_ROOMS_KEY = "ChatRooms"
         private const val MESSAGES_KEY = "Messages"
-        const val LAST_MESSAGE_KEY = "last_message"
 
         private const val ENTRY_MESSAGE = "No messages yet (:"
     }

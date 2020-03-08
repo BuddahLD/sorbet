@@ -12,4 +12,9 @@
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
+    <style name="popup_window_animation">
+        <item name="android:windowEnterAnimation">@anim/animation_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/animation_slide_out</item>
+    </style>
+
 </resources>

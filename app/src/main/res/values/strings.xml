@@ -34,5 +34,10 @@
     <!-- Chat room -->
     <string name="message">Type your message</string>
     <string name="send_message_button">Send message button</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+
+    <!-- Chat room edit -->
+    <string name="group_name">GroupName</string>
 
 </resources>

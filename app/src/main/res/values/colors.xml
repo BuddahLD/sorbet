@@ -15,6 +15,7 @@
     <color name="gray_middle_darker">#94989898</color>
     <color name="gray_dark">#944F4F4F</color>
     <color name="gray_black">#4D4D4D</color>
+    <color name="attention">#FF5252</color>
 
     <color name="amber">#FFBF00</color>
     <color name="aquamarine">#7FFFD4</color>

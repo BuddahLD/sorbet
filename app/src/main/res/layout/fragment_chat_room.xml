@@ -53,7 +53,7 @@
                 android:id="@+id/tvGroupName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/half_default_margin"
+                android:layout_marginStart="@dimen/default_margin"
                 android:ellipsize="end"
                 android:maxWidth="230dp"
                 android:maxLines="1"
