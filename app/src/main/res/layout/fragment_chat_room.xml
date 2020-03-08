@@ -110,7 +110,7 @@
                 android:paddingTop="@dimen/half_default_margin"
                 android:paddingBottom="@dimen/half_default_margin"
                 android:textColor="@color/snow"
-                android:textColorHint="@color/gray_light"
+                android:textColorHint="@color/gray_light_trans"
                 android:textSize="@dimen/increased_text"
                 android:text="@={chatRoomVM.messageEdit}"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -96,6 +96,7 @@
                 android:layout_marginEnd="@dimen/default_margin"
                 android:maxLines="1"
                 android:minHeight="10dp"
+                android:textColor="@color/primary_text"
                 android:text="@={chatRoomEditVM.chatRoomNameEdit}"
                 app:layout_constraintBottom_toBottomOf="@id/civGroupPic"
                 app:layout_constraintEnd_toEndOf="parent"

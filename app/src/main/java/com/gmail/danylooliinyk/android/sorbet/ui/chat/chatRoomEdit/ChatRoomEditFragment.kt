@@ -2,10 +2,14 @@ package com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomEdit
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.gmail.danylooliinyk.android.base.extension.observe
 import com.gmail.danylooliinyk.android.base.extension.scopeViewModel
 import com.gmail.danylooliinyk.android.base.view.fragment.BaseFragmentBinding
@@ -25,7 +29,9 @@ class ChatRoomEditFragment : BaseFragmentBinding(R.layout.fragment_chat_room_edi
 
     private lateinit var civGroupPic: CircleImageView
     private lateinit var fabConfirmChanges: View
-    private lateinit var pbLoading: View // TODO change everywhere to View
+    private lateinit var ivBack: View // TODO change everywhere to View
+    private lateinit var pbLoading: View
+    private lateinit var etGroupName: EditText
 
     override fun initViewBinding(
         inflater: LayoutInflater,
@@ -56,11 +62,35 @@ class ChatRoomEditFragment : BaseFragmentBinding(R.layout.fragment_chat_room_edi
             this@ChatRoomEditFragment.civGroupPic = findViewById(R.id.civGroupPic)
             this@ChatRoomEditFragment.fabConfirmChanges = findViewById(R.id.fabConfirmChanges)
             this@ChatRoomEditFragment.pbLoading = findViewById(R.id.pbLoading)
+            this@ChatRoomEditFragment.ivBack = findViewById(R.id.ivBack)
+            this@ChatRoomEditFragment.etGroupName = findViewById(R.id.etGroupName)
+
+            val chatRoom = ChatRoomEditFragmentArgs.fromBundle(requireArguments()).chatRoom
+            Glide.with(this)
+                .load(chatRoom.picturePath)
+                .centerCrop()
+                .into(civGroupPic)
+            val newEditable = Editable.Factory.getInstance().newEditable(chatRoom.friendlyName)
+            etGroupName.post {
+                etGroupName.text = newEditable
+            }
+
+            fabConfirmChanges.setOnClickListener {
+                vm.editChatRoom()
+            }
         }
+        setupToolbar()
     }
 
     override fun initData() {
         vm.currentChatRoom = ChatRoomEditFragmentArgs.fromBundle(requireArguments()).chatRoom
+    }
+
+    private fun setupToolbar() {
+        ivBack.setOnClickListener {
+            hideKeyboard()
+            activity?.onBackPressed() // TODO crash on many times open chat room, then press back
+        }
     }
 
     private fun onStateChatRoomEditingChanged(state: ChatRoomEditVM.StateChatRoomEditing) =

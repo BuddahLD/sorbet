@@ -53,6 +53,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
     private lateinit var tvGroupName: TextView
     private lateinit var ivMore: ImageView
     private lateinit var pbLoading: ProgressBar
+    private lateinit var menuPopup: MenuPopup
 
     override fun initObjects(context: Context) {
         val messageMeItem = MessageItemMe(auth)
@@ -116,6 +117,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
             this@ChatRoomFragment.pbLoading = findViewById(R.id.pbLoading)
         }
         lockSendMessageUi(true)
+        this.menuPopup = initMenu()
     }
 
     override fun initData() {
@@ -137,30 +139,33 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
 
         tvGroupName.text = chatRoom.friendlyName
         ivMore.setOnClickListener {
-            showMenu()
+            val pointToShow = Point(
+                it.x.toInt() + UiUtils.pixelsToDp(it.width, requireContext()),
+                it.y.toInt()
+            )
+            menuPopup.showPopup(pointToShow)
         }
     }
 
-    private fun showMenu() {
-        val menu = MenuPopup()
-        menu.setOnClickListener {
+    private fun initMenu(): MenuPopup {
+        val menuPopup = MenuPopup()
+        menuPopup.setOnClickListener {
             when (it.id) {
                 R.id.tvMenuItemEdit -> {
+                    menuPopup.dismiss()
                     val direction =
                         ChatRoomFragmentDirections.actionChatRoomFragmentToChatRoomEditFragment(vm.currentChatRoom)
                     findNavController().navigate(direction)
                 }
                 R.id.tvMenuItemDelete -> {
+                    menuPopup.dismiss()
                     vm.deleteChatRoom()
                 }
             }
         }
-        menu.setupPopup(requireContext())
-        val pointToShow = Point(
-            ivMore.x.toInt() + UiUtils.pixelsToDp(ivMore.width, requireContext()),
-            ivMore.y.toInt()
-        )
-        menu.showPopup(pointToShow)
+        menuPopup.setupPopup(requireContext())
+
+        return menuPopup
     }
 
     private fun onStateChanged(state: ChatRoomVM.StateGetMessages) = when (state) {
@@ -237,7 +242,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
 
     private fun lockSendMessageUi(lock: Boolean) {
         val color = if (lock) {
-            ContextCompat.getColor(requireContext(), R.color.gray_light)
+            ContextCompat.getColor(requireContext(), R.color.gray_light_trans)
         } else {
             ContextCompat.getColor(requireContext(), R.color.accent)
         }

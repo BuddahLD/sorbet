@@ -79,6 +79,10 @@ class ChatRoomVMDefault(
     }
 
     override fun deleteChatRoom() {
-        // TODO Implement body or it will be empty ):
+        viewModelScope.launch {
+            _liveChatRoomDelete.value = StateChatRoomDelete.OnLoading
+            chatRoomRepository.deleteChatRoom(currentChatRoom.id)
+            _liveChatRoomDelete.value = StateChatRoomDelete.OnChatRoomDeleteSuccess
+        }
     }
 }

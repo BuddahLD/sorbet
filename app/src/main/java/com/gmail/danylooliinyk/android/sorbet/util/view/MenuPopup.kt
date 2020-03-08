@@ -34,7 +34,7 @@ class MenuPopup : PopupWindow() {
                           UiUtils.dpToPixels(PADDING_BOTTOM, context))
 
         isFocusable = IS_FOCUSABLE
-        setBackgroundDrawable(context.getDrawable(R.drawable.rect_white_rounded_2))
+        setBackgroundDrawable(context.getDrawable(R.drawable.rect_gray_rounded_2))
         animationStyle = R.style.popup_window_animation
 
         val tvMenuItemEdit = containerView.findViewById<TextView>(R.id.tvMenuItemEdit)

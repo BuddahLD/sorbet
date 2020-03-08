@@ -3,7 +3,7 @@
     android:id="@+id/llPopupRoot"
     android:layout_width="128dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/rect_white_rounded_2"
+    android:background="@drawable/rect_gray_rounded_2"
     android:orientation="vertical"
     android:paddingBottom="@dimen/twenty_margin"
     android:paddingTop="@dimen/twenty_margin">

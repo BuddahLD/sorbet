@@ -39,4 +39,14 @@ interface ChatRoomRepository {
      * Adds a [ChatRoom] to the firestore with provided [chatRoom].
      */
     suspend fun addChatRoom(chatRoom: ChatRoom)
+
+    /**
+     * Deletes a [ChatRoom] with a provided [chatRoomId].
+     */
+    suspend fun deleteChatRoom(chatRoomId: String)
+
+    /**
+     * Edits a [ChatRoom] with a provided [chatRoomId] with given [editedChatRoom].
+     */
+    suspend fun editChatRoom(chatRoomId: String, editedChatRoom: ChatRoom)
 }

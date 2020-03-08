@@ -25,5 +25,5 @@ abstract class ChatRoomEditVM : ViewModel() {
     abstract val liveChatRoomEdit: LiveData<StateChatRoomEdit>
     abstract val liveChatRoomEditing: LiveData<StateChatRoomEditing>
 
-    abstract fun editChatRoom(editedChatRoom: ChatRoom)
+    abstract fun editChatRoom()
 }

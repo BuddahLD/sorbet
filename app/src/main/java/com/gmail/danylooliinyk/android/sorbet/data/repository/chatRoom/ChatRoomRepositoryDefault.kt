@@ -55,4 +55,10 @@ class ChatRoomRepositoryDefault(
     override suspend fun addRandomChatRoom() = firestoreApi.addRandomChatRoom()
 
     override suspend fun addChatRoom(chatRoom: ChatRoom) = firestoreApi.addChatRoom(chatRoom)
+
+    override suspend fun deleteChatRoom(chatRoomId: String) =
+        firestoreApi.deleteChatRoom(chatRoomId)
+
+    override suspend fun editChatRoom(chatRoomId: String, editedChatRoom: ChatRoom) =
+        firestoreApi.editChatRoom(chatRoomId, editedChatRoom)
 }
