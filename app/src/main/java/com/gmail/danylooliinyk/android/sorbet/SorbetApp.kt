@@ -10,7 +10,7 @@ import org.koin.core.context.startKoin
 /**
  * SorbetApp
  */
-class SorbetApp : Application() {
+class SorbetApp : Application() { // TODO rename java to kotlin package
 
     override fun onCreate() {
         super.onCreate()

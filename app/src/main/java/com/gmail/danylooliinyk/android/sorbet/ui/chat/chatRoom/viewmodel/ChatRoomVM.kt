@@ -1,7 +1,6 @@
 package com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
 import com.gmail.danylooliinyk.android.sorbet.data.model.Message
@@ -23,13 +22,20 @@ abstract class ChatRoomVM : ViewModel() {
         data class OnSendMessageError(val throwable: Throwable) : StateSendMessage()
     }
 
-    abstract var chatRoom: ChatRoom
+    sealed class StateGetChatRoom {
+        object OnLoading : StateGetChatRoom()
+        data class OnGetChatRoomSuccess(val chatRoom: ChatRoom) : StateGetChatRoom()
+        data class OnGetChatRoomError(val throwable: Throwable) : StateGetChatRoom()
+    }
 
     abstract val messageEdit: LiveData<String>
     abstract val liveGetMessages: LiveData<StateGetMessages>
     abstract val liveSendMessage: LiveData<StateSendMessage>
+    abstract val liveGetChatRoom: LiveData<StateGetChatRoom>
 
     abstract fun getMessages()
 
     abstract fun sendMessage(text: String)
+
+    abstract fun getChatRoom(chatRoomId: String)
 }

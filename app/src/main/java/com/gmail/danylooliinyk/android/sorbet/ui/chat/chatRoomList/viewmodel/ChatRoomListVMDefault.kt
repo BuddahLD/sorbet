@@ -29,7 +29,7 @@ class ChatRoomListVMDefault(
     }
 
     override fun addRandomChatRoom() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             _liveAddChatRoom.value = StateAddChatRoom.OnLoading
             repository.addRandomChatRoom()
             _liveAddChatRoom.value = StateAddChatRoom.OnChatRoomAdded

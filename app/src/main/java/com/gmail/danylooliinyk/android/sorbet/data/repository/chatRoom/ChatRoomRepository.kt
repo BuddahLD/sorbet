@@ -1,6 +1,7 @@
 package com.gmail.danylooliinyk.android.sorbet.data.repository.chatRoom
 
 import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
+import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVM
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList.viewmodel.ChatRoomListVM
 import kotlinx.coroutines.flow.Flow
 
@@ -13,6 +14,11 @@ interface ChatRoomRepository {
      * Returns all chat rooms list. On snapshot changes returns whole list as well.
      */
     fun getChatRooms(): Flow<ChatRoomListVM.StateGetChatRooms>
+
+    /**
+     * Returns [ChatRoom] snapshot and further changes.
+     */
+    fun getChatRoom(chatRoomId: String): Flow<ChatRoomVM.StateGetChatRoom>
 
     /**
      * Returns only difference of a snapshot changes.

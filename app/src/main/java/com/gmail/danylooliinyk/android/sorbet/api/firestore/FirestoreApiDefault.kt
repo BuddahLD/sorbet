@@ -55,6 +55,9 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
             .orderBy("created_at", Query.Direction.DESCENDING)
             .snapshotAsFlow()
 
+    override fun getChatRoom(chatRoomId: String): Flow<DocumentSnapshot> =
+        firestore.collection(CHAT_ROOMS_KEY).document(chatRoomId).snapshotAsFlow()
+
     /**
      * Adds a [ChatRoom] with randomly generated parameters, then adds a [Message] into the
      * newly created [ChatRoom]. These two operations happen as transaction (batch).
@@ -90,7 +93,8 @@ class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
         firestore.runBatch { batch ->
             batch.set(addMessageRef, message)
             batch.update(chatRoomRef, LAST_MESSAGE_KEY, message.body)
-        }.await()
+        }
+            .await() // TODO move to https://firebaseopensource.com/projects/firebase/firebase-android-sdk/docs/ktx/firestore.md/
     }
 
     private suspend fun generateRandomChatRoom(): ChatRoom {

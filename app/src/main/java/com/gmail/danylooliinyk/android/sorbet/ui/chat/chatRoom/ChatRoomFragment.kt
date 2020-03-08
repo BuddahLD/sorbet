@@ -72,6 +72,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
         observe(vm.messageEdit, ::onStateMessageEditChanged)
         observe(vm.liveGetMessages, ::onStateChanged)
         observe(vm.liveSendMessage, ::onStateSendMessageChanged)
+        observe(vm.liveGetChatRoom, ::onStateGetChatRoomChanged)
     }
 
     override fun initViewBinding(
@@ -97,6 +98,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
             val ivSend = findViewById<ImageView>(R.id.ivSend)
             ivSend.setOnClickListener {
                 vm.sendMessage(etMessage.text.toString()) // FIXME update last message in chat room list
+                etMessage.text.clear()
             }
 
             val rvMessages = findViewById<RecyclerView>(R.id.rvMessages)
@@ -110,12 +112,12 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
             this@ChatRoomFragment.ivMore = findViewById(R.id.ivMore)
             this@ChatRoomFragment.pbLoading = findViewById(R.id.pbLoading)
         }
-        setupToolbar(ChatRoomFragmentArgs.fromBundle(requireArguments()).chatRoom)
         lockSendMessageUi(true)
     }
 
     override fun initData() {
-        vm.chatRoom = ChatRoomFragmentArgs.fromBundle(requireArguments()).chatRoom
+        val chatRoom = ChatRoomFragmentArgs.fromBundle(requireArguments()).chatRoom
+        vm.getChatRoom(chatRoom.id)
         vm.getMessages()
     }
 
@@ -164,6 +166,22 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
         is ChatRoomVM.StateSendMessage.OnLoading -> showLoading(pbLoading, true)
         is ChatRoomVM.StateSendMessage.OnMessageSent -> Unit
         is ChatRoomVM.StateSendMessage.OnSendMessageError -> {
+            showLoading(pbLoading, false)
+            UiUtils.showSnackbar(
+                requireView(),
+                state.throwable.localizedMessage
+                    ?: "Unhandled error. Contact developer, please."
+            )
+        }
+    }
+
+    private fun onStateGetChatRoomChanged(state: ChatRoomVM.StateGetChatRoom) = when (state) {
+        is ChatRoomVM.StateGetChatRoom.OnLoading -> showLoading(pbLoading, true)
+        is ChatRoomVM.StateGetChatRoom.OnGetChatRoomSuccess -> {
+            showLoading(pbLoading, false)
+            setupToolbar(state.chatRoom)
+        }
+        is ChatRoomVM.StateGetChatRoom.OnGetChatRoomError -> {
             showLoading(pbLoading, false)
             UiUtils.showSnackbar(
                 requireView(),
