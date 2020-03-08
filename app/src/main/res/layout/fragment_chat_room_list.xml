@@ -69,6 +69,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:maxImageSize="12dp" />
+        app:maxImageSize="12dp"
+        app:tint="@color/snow"
+        app:tintMode="src_in" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,8 +32,9 @@ class ChatRoomEditVMDefault(
 
     init {
         this.chatRoomNameObserver = { newName ->
-            if (newName != currentChatRoom.friendlyName) {
-                val updatedChatRoom = currentChatRoom.copy(friendlyName = newName)
+            val newNameTrimmed = newName.trim()
+            if (newNameTrimmed != currentChatRoom.friendlyName) {
+                val updatedChatRoom = currentChatRoom.copy(friendlyName = newNameTrimmed)
                 this.updatedChatRoom = updatedChatRoom
 
                 _liveChatRoomEditing.value =

@@ -1,8 +1,10 @@
 package com.gmail.danylooliinyk.android.sorbet.util
 
 import android.content.Context
+import android.graphics.Rect
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.Window
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -31,4 +33,10 @@ object UiUtils {
         context.resources.displayMetrics.let {
             px / (it.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
         }.toInt()
+
+    fun getStatusBarHeight(window: Window): Int {
+        val rectangle = Rect()
+        window.decorView.getWindowVisibleDisplayFrame(rectangle)
+        return rectangle.top
+    }
 }

@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Sorbet</string>
 
+    <!-- Common -->
+    <string name="cancel">Cancel</string>
+    <string name="sign_out">Sign Out</string>
+
     <!-- Bottom navigation menu -->
     <string name="home">Home</string>
     <string name="android">Android</string>
-    <string name="camera">Camera</string>
     <string name="gift">Gift</string>
     <string name="chat">Chat</string>
 
@@ -21,7 +24,6 @@
     <string name="please_sign_in">Please, sign in.</string>
 
     <!-- Sign Out -->
-    <string name="sign_out">Sign Out</string>
     <string name="you_can_sign_out">You can sign out below.</string>
 
     <!-- Sorbet Activity -->
@@ -36,6 +38,7 @@
     <string name="send_message_button">Send message button</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="delete_chat_room">Delete current Chat Room?</string>
 
     <!-- Chat room edit -->
     <string name="group_name">GroupName</string>

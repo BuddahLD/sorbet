@@ -23,6 +23,7 @@ class StubFragmentOne : Fragment(R.layout.fragment_stub_one) {
                 ).show()
 
                 // TODO disable multiple taps
+                // TODO disable open current page in Bottom View
             }
         }
     }

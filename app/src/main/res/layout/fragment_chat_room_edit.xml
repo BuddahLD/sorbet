@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="chatRoomEditVM"
             type="com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomEdit.viewmodel.ChatRoomEditVMDefault" />
@@ -96,8 +97,8 @@
                 android:layout_marginEnd="@dimen/default_margin"
                 android:maxLines="1"
                 android:minHeight="10dp"
-                android:textColor="@color/primary_text"
                 android:text="@={chatRoomEditVM.chatRoomNameEdit}"
+                android:textColor="@color/primary_text"
                 app:layout_constraintBottom_toBottomOf="@id/civGroupPic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/civGroupPic"
@@ -109,17 +110,20 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabConfirmChanges"
             style="@style/Widget.MaterialComponents.FloatingActionButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:contentDescription="@string/create_new_chat"
-            android:src="@drawable/ic_check_24px"
+            android:scaleType="center"
             android:visibility="invisible"
 
             app:backgroundTint="@color/accent"
+            app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:maxImageSize="12dp" />
+            app:srcCompat="@drawable/ic_check_24px"
+            app:tint="@color/snow"
+            app:tintMode="src_in" />
 
         <ProgressBar
             android:id="@+id/pbLoading"

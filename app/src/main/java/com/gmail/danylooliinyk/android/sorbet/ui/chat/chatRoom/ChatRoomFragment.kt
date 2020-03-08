@@ -30,6 +30,7 @@ import com.gmail.danylooliinyk.android.sorbet.data.model.Message
 import com.gmail.danylooliinyk.android.sorbet.databinding.FragmentChatRoomBinding
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.adapter.MessageItemMe
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.adapter.MessageItemYou
+import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.dialog.DeleteChatRoomDialogFragment
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVM
 import com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoom.viewmodel.ChatRoomVMDefault
 import com.gmail.danylooliinyk.android.sorbet.util.UiUtils
@@ -54,6 +55,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
     private lateinit var ivMore: ImageView
     private lateinit var pbLoading: ProgressBar
     private lateinit var menuPopup: MenuPopup
+    private lateinit var deleteDialog: DeleteChatRoomDialogFragment
 
     override fun initObjects(context: Context) {
         val messageMeItem = MessageItemMe(auth)
@@ -77,6 +79,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
         observe(vm.liveSendMessage, ::onStateSendMessageChanged)
         observe(vm.liveGetChatRoom, ::onStateGetChatRoomChanged)
         observe(vm.liveChatRoomDelete, ::onStateChatRoomDeleteChanged)
+        observe(deleteDialog.liveDeleteDialog, ::onStateDeleteDialogChanged)
     }
 
     override fun initViewBinding(
@@ -118,6 +121,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
         }
         lockSendMessageUi(true)
         this.menuPopup = initMenu()
+        this.deleteDialog = DeleteChatRoomDialogFragment()
     }
 
     override fun initData() {
@@ -139,10 +143,13 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
 
         tvGroupName.text = chatRoom.friendlyName
         ivMore.setOnClickListener {
-            val pointToShow = Point(
-                it.x.toInt() + UiUtils.pixelsToDp(it.width, requireContext()),
-                it.y.toInt()
-            )
+            val screenWidth = requireView().width
+            val statusBarHeight = UiUtils.getStatusBarHeight(requireActivity().window)
+            val menuWidth = UiUtils.dpToPixels(MenuPopup.MENU_WIDTH, requireContext())
+            val positionX = screenWidth - menuWidth - UiUtils.dpToPixels(4, requireContext())
+            val positionY = statusBarHeight + UiUtils.dpToPixels(4, requireContext())
+            val pointToShow = Point(positionX, positionY)
+
             menuPopup.showPopup(pointToShow)
         }
     }
@@ -159,7 +166,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
                 }
                 R.id.tvMenuItemDelete -> {
                     menuPopup.dismiss()
-                    vm.deleteChatRoom()
+                    deleteDialog.show(requireFragmentManager(), null)
                 }
             }
         }
@@ -236,6 +243,14 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
                     state.throwable.localizedMessage
                         ?: "Unhandled error. Contact developer, please."
                 )
+            }
+        }
+    }
+
+    private fun onStateDeleteDialogChanged(state: DeleteChatRoomDialogFragment.StateDeleteDialog) {
+        when (state) {
+            is DeleteChatRoomDialogFragment.StateDeleteDialog.OnDelete -> {
+                vm.deleteChatRoom()
             }
         }
     }

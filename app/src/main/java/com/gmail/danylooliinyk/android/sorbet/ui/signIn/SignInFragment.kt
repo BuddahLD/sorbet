@@ -12,6 +12,7 @@ import com.gmail.danylooliinyk.android.sorbet.R
 import com.gmail.danylooliinyk.android.sorbet.ui.signIn.viewmodel.SignInVM
 import com.gmail.danylooliinyk.android.sorbet.util.UiUtils
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_sign_in.*
 import org.koin.android.ext.android.inject
 
 /**
@@ -36,6 +37,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
         with(view) {
             val btnSignIn: View = findViewById(R.id.btnSignIn)
             btnSignIn.setOnClickListener {
+                lockUi(true)
                 vm.anonymousSignIn()
             }
             this@SignInFragment.pbLoading = findViewById(R.id.pbLoading)
@@ -52,6 +54,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
         }
         is SignInVM.State.OnSignInError -> { // TODO check where error is been thrown
             showLoading(pbLoading, false)
+            lockUi(false)
             UiUtils.showSnackbar(
                 requireView(),
                 state.throwable.localizedMessage
@@ -63,5 +66,10 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
     private fun navigateToChatRoomList() {
         val action = SignInFragmentDirections.actionSignInFragmentToChatRoomListFragment()
         findNavController().navigate(action)
+    }
+
+    private fun lockUi(lock: Boolean) {
+       btnSignIn.isEnabled = !lock
+       btnSignIn.isClickable = !lock
     }
 }

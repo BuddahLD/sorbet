@@ -107,6 +107,7 @@ class ChatRoomEditFragment : BaseFragmentBinding(R.layout.fragment_chat_room_edi
         is ChatRoomEditVM.StateChatRoomEdit.OnLoading -> showLoading(pbLoading, true)
         is ChatRoomEditVM.StateChatRoomEdit.OnChatRoomEditSuccess -> {
             showLoading(pbLoading, false)
+            fabConfirmChanges.visibility = View.INVISIBLE
         }
         is ChatRoomEditVM.StateChatRoomEdit.OnChatRoomDeleteError -> {
             showLoading(pbLoading, false)

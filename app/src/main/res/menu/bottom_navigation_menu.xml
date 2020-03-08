@@ -17,6 +17,6 @@
         android:icon="@drawable/ic_account_balance_24px" />
 
     <item android:id="@+id/signOutFragment"
-        android:title="@string/camera"
-        android:icon="@drawable/ic_camera_enhance_24px" />
+        android:title="@string/sign_out"
+        android:icon="@drawable/ic_exit_24px" />
 </menu>
