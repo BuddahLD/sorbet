@@ -88,8 +88,15 @@ dependencies {
     // Circle image view
     implementation "de.hdodenhof:circleimageview:$versions.circleImageView"
 
-    // Tests
-    testImplementation "junit:junit:$versions.junit"
+    // Android Tests
+    androidTestImplementation "junit:junit:$versions.junit"
     androidTestImplementation "androidx.test.ext:junit:$versions.junitExt"
     androidTestImplementation "androidx.test.espresso:espresso-core:$versions.espresso"
+    androidTestImplementation "org.koin:koin-test:$versions.koin"
+    androidTestImplementation "androidx.test:rules:$versions.testRules"
+    androidTestImplementation "org.mockito:mockito-core:$versions.mockito"
+    androidTestImplementation "android.arch.core:core-testing:$versions.archCore"
+
+    // Android Tests
+    testImplementation "junit:junit:$versions.junit"
 }

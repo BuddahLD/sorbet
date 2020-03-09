@@ -37,7 +37,10 @@ buildscript {
             // Test
             junit              : '4.13',
             junitExt           : '1.1.1',
-            espresso           : '3.2.0'
+            espresso           : '3.2.0',
+            testRules          : '1.2.0',
+            mockito            : '3.0.0',
+            archCore           : '1.1.1',
     ]
     repositories {
         google()
