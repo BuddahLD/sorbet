@@ -48,9 +48,12 @@ class SorbetActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val navController = findNavController(R.id.fNavHost)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fNavHost)
+        val backStackEntryCount = navHostFragment?.childFragmentManager?.backStackEntryCount
 
-        if (navController.currentDestination?.id == R.id.chatRoomListFragment || // FIXME don't add to backstack everything (e.g. bottom navigation fragments)
-                navController.currentDestination?.id == R.id.signInFragment) {
+        if ((navController.currentDestination?.id == R.id.chatRoomListFragment ||
+                navController.currentDestination?.id == R.id.signInFragment)
+            && backStackEntryCount == 0) {
 
             if (backPressed) {
                 super.onBackPressed()
@@ -74,7 +77,7 @@ class SorbetActivity : AppCompatActivity() {
      * Bottom Navigation view visibility listener function. It shows or hides Bottom Navigation.
      */
     private fun setNavControllerListener(navController: NavController) {
-        this.navListener = NavController.OnDestinationChangedListener { _, destination, _ ->
+        this.navListener = NavController.OnDestinationChangedListener { nav, destination, _ ->
             when (destination.id) {
                 R.id.chatRoomFragment,
                 R.id.signInFragment,
