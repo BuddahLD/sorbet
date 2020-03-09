@@ -23,10 +23,10 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
     private val auth: FirebaseAuth by inject()
     private val vm: SignInVM by scopeViewModel()
 
-    private lateinit var pbLoading: ProgressBar
+    private lateinit var pbLoading: View
 
     override fun initObjects(context: Context) {
-        if (auth.currentUser != null) navigateToChatRoomList() // TODO change transition animation if user logged in to avoid blink
+        if (auth.currentUser != null) navigateToChatRoomList()
     }
 
     override fun initObservers() {
@@ -52,7 +52,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
             showLoading(pbLoading, false)
             navigateToChatRoomList()
         }
-        is SignInVM.State.OnSignInError -> { // TODO check where error is been thrown
+        is SignInVM.State.OnSignInError -> {
             showLoading(pbLoading, false)
             lockUi(false)
             UiUtils.showSnackbar(

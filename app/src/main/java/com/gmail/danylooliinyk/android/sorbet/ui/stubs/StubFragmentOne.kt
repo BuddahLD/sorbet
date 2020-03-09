@@ -21,9 +21,6 @@ class StubFragmentOne : Fragment(R.layout.fragment_stub_one) {
                     this@StubFragmentOne::class.java.simpleName,
                     Toast.LENGTH_SHORT
                 ).show()
-
-                // TODO disable multiple taps
-                // TODO disable open current page in Bottom View
             }
         }
     }

@@ -2,7 +2,6 @@ package com.gmail.danylooliinyk.android.sorbet.ui.chat.chatRoomList
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -37,8 +36,9 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
     private lateinit var liveChatRoomItem: SingleLiveEvent<ChatRoomItem.Action>
 
     private lateinit var tvTitle: TextView
-    private lateinit var pbLoading: ProgressBar
+    private lateinit var pbLoading: View
     private lateinit var fabAddChatRoom: FloatingActionButton
+    private lateinit var tvNoChatRooms: View
 
     override fun initObjects(context: Context) {
         this.liveChatRoomItem = SingleLiveEvent()
@@ -73,13 +73,14 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
             }
             this@ChatRoomListFragment.tvTitle = findViewById(R.id.tvTitle)
             this@ChatRoomListFragment.pbLoading = findViewById(R.id.pbLoading)
+            this@ChatRoomListFragment.tvNoChatRooms = findViewById(R.id.tvNoChatRooms)
         }
 
         setupToolbar()
     }
 
     override fun initData() {
-        if (adapter.itemCount == 0) // TODO check whether data is loaded from local cache first
+        if (adapter.itemCount == 0)
             vm.getChatRooms()
     }
 
@@ -87,13 +88,21 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
         tvTitle.text = getString(R.string.title)
     }
 
-    private fun onGetChatRoomsStateChanged(state: ChatRoomListVM.StateGetChatRooms) =
+    private fun onGetChatRoomsStateChanged(state: ChatRoomListVM.StateGetChatRooms) {
         when (state) {
             is ChatRoomListVM.StateGetChatRooms.OnLoading -> showLoading(pbLoading, true)
             is ChatRoomListVM.StateGetChatRooms.OnGetChatRoomsSuccess -> {
                 showLoading(pbLoading, false)
-                adapter.swapData(state.chatRooms)
-            } // TODO show empty label when no chat rooms
+                if (state.chatRooms.isNotEmpty()) {
+                    tvNoChatRooms.visibility = View.INVISIBLE
+                    adapter.swapData(state.chatRooms)
+                } else {
+                    if(adapter.itemCount != 0)
+                        adapter.clearItems()
+
+                    tvNoChatRooms.visibility = View.VISIBLE
+                }
+            }
             is ChatRoomListVM.StateGetChatRooms.OnGetChatRoomsError -> {
                 showLoading(pbLoading, false)
                 UiUtils.showSnackbar(
@@ -103,6 +112,7 @@ class ChatRoomListFragment : BaseFragment(R.layout.fragment_chat_room_list) {
                 )
             }
         }
+    }
 
     private fun onAddChatRoomStateChanged(state: ChatRoomListVM.StateAddChatRoom) =
         when (state) {

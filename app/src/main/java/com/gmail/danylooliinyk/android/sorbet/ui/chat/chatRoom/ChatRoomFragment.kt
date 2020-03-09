@@ -37,6 +37,7 @@ import com.gmail.danylooliinyk.android.sorbet.util.UiUtils
 import com.gmail.danylooliinyk.android.sorbet.util.view.MenuPopup
 import com.google.firebase.auth.FirebaseAuth
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_chat_room.*
 import org.koin.android.ext.android.inject
 
 /**
@@ -49,10 +50,10 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
 
     private lateinit var adapter: DelegateAdapter<Message>
     private lateinit var ivSend: ImageView
-    private lateinit var ivBack: ImageView
+    private lateinit var ivBack: View
     private lateinit var civGroupPic: CircleImageView
     private lateinit var tvGroupName: TextView
-    private lateinit var ivMore: ImageView
+    private lateinit var ivMore: View
     private lateinit var pbLoading: ProgressBar
     private lateinit var menuPopup: MenuPopup
     private lateinit var deleteDialog: DeleteChatRoomDialogFragment
@@ -104,7 +105,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
             val etMessage = findViewById<EditText>(R.id.etMessage)
             val ivSend = findViewById<ImageView>(R.id.ivSend)
             ivSend.setOnClickListener {
-                vm.sendMessage(etMessage.text.toString()) // FIXME update last message in chat room list
+                vm.sendMessage(etMessage.text.toString())
                 etMessage.text.clear()
             }
 
@@ -134,7 +135,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
     private fun setupToolbar(chatRoom: ChatRoom) {
         ivBack.setOnClickListener {
             hideKeyboard()
-            activity?.onBackPressed() // TODO crash on many times open chat room, then press back
+            activity?.onBackPressed()
         }
         Glide.with(this)
             .load(chatRoom.picturePath)
@@ -180,7 +181,8 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
         is ChatRoomVM.StateGetMessages.OnGetMessagesSuccess -> {
             showLoading(pbLoading, false)
             adapter.swapData(state.messages)
-        } // TODO show empty label when no chat rooms
+            rvMessages.scrollToPosition(adapter.itemCount - 1)
+        }
         is ChatRoomVM.StateGetMessages.OnGetMessagesError -> {
             showLoading(pbLoading, false)
             UiUtils.showSnackbar(
@@ -239,7 +241,7 @@ class ChatRoomFragment : BaseFragmentBinding(R.layout.fragment_chat_room) {
             is ChatRoomVM.StateChatRoomDelete.OnLoading -> showLoading(pbLoading, true)
             is ChatRoomVM.StateChatRoomDelete.OnChatRoomDeleteSuccess -> {
                 showLoading(pbLoading, false)
-                activity?.onBackPressed() // TODO handle when other people in deleted chat room exit from it for them
+                activity?.onBackPressed()
             }
             is ChatRoomVM.StateChatRoomDelete.OnChatRoomDeleteError -> {
                 showLoading(pbLoading, false)

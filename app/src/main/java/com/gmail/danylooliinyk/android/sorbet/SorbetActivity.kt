@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.gmail.danylooliinyk.android.sorbet.ui.signOut.SignOutFragmentDirections
+import com.gmail.danylooliinyk.android.sorbet.util.Const
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -92,14 +93,10 @@ class SorbetActivity : AppCompatActivity() {
             View.GONE to 250f
         }
 
-        ObjectAnimator.ofFloat(bottomNavigation, TRANSLATION_Y, distance).apply {
+        ObjectAnimator.ofFloat(bottomNavigation, Const.TRANSLATION_Y, distance).apply {
             duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
             addListener(onStart = { bottomNavigation.visibility = visibility })
             start()
         }
-    }
-
-    companion object {
-        private const val TRANSLATION_Y = "translationY"
     }
 }

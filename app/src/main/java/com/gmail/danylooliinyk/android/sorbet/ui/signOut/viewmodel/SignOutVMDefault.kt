@@ -20,7 +20,12 @@ class SignOutVMDefault(
     override fun signOut() {
         viewModelScope.launch {
             _liveSignOut.value = State.OnLoading
-            firestoreApi.signOut()
+            try {
+                firestoreApi.signOut()
+            } catch (throwable: Throwable) {
+                _liveSignOut.value = State.OnSignOutError(throwable)
+                return@launch
+            }
             _liveSignOut.value = State.OnSignOutSuccess
         }
     }

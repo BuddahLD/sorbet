@@ -77,6 +77,11 @@ class DelegateAdapter<T : Comparable<T>> constructor(
                 }
     }
 
+    fun clearItems() {
+        this.data.clear()
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
         return data.size
     }

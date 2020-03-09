@@ -16,7 +16,7 @@ import kotlin.random.Random
 /**
  * FirestoreApi
  */
-class FirestoreApiDefault( // TODO check and refactor all FirestoreApi
+class FirestoreApiDefault(
     private val fuelApi: FuelApi,
     private val pictureProvider: PictureProvider
 ) : FirestoreApi {

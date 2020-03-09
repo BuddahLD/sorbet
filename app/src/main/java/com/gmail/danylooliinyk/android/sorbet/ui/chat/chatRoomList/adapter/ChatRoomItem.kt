@@ -35,7 +35,6 @@ class ChatRoomItem(
 
                 setOnClickListener {
                     actionLiveData.value = Action.ChatRoomClicked(item)
-//                    actionLiveData.value = Action.Idle // TODO remove?
                 }
             }
 
@@ -46,6 +45,5 @@ class ChatRoomItem(
 
     sealed class Action {
         data class ChatRoomClicked(val chatRoom: ChatRoom) : Action()
-//        object Idle : Action() // TODO remove?
     }
 }

@@ -37,7 +37,7 @@ class ChatRoomVMDefault(
     override val liveChatRoomDelete: LiveData<StateChatRoomDelete>
         get() = _liveChatRoomDelete
 
-    override val messageEdit = MutableLiveData<String>() // TODO try make private
+    override val messageEdit = MutableLiveData<String>()
 
     override lateinit var currentChatRoom: ChatRoom
 
@@ -47,12 +47,11 @@ class ChatRoomVMDefault(
         )
         _liveGetMessages.addSource(liveData) { value ->
             _liveGetMessages.value = value
-        } // TODO change setters to kotlin-like
+        }
     }
 
     override fun sendMessage(text: String) {
         viewModelScope.launch {
-            // TODO remove Dispatchers.Main in viewModelScope.launch
             _liveSendMessage.value = StateSendMessage.OnLoading
             val id = "${UUID.randomUUID()}"
             val message = Message(
@@ -61,7 +60,12 @@ class ChatRoomVMDefault(
                 Timestamp.now(),
                 auth.currentUser!!.uid
             )
-            messagesRepository.sendMessage(message, this@ChatRoomVMDefault.currentChatRoom.id)
+            try {
+                messagesRepository.sendMessage(message, this@ChatRoomVMDefault.currentChatRoom.id)
+            } catch (throwable: Throwable) {
+                _liveSendMessage.value = StateSendMessage.OnSendMessageError(throwable)
+                return@launch
+            }
             _liveSendMessage.value = StateSendMessage.OnMessageSent
         }
     }
@@ -81,7 +85,12 @@ class ChatRoomVMDefault(
     override fun deleteChatRoom() {
         viewModelScope.launch {
             _liveChatRoomDelete.value = StateChatRoomDelete.OnLoading
-            chatRoomRepository.deleteChatRoom(currentChatRoom.id)
+            try {
+                chatRoomRepository.deleteChatRoom(currentChatRoom.id)
+            } catch (throwable: Throwable) {
+                _liveChatRoomDelete.value = StateChatRoomDelete.OnChatRoomDeleteError(throwable)
+                return@launch
+            }
             _liveChatRoomDelete.value = StateChatRoomDelete.OnChatRoomDeleteSuccess
         }
     }

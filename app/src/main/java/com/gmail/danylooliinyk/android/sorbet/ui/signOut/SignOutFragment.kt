@@ -19,7 +19,7 @@ class SignOutFragment : BaseFragment(R.layout.fragment_sing_out) {
 
     private val vm: SignOutVM by scopeViewModel()
 
-    private lateinit var pbLoading: ProgressBar
+    private lateinit var pbLoading: View
 
     override fun initObjects(context: Context) {}
 
@@ -45,7 +45,7 @@ class SignOutFragment : BaseFragment(R.layout.fragment_sing_out) {
             showLoading(pbLoading, false)
             val action = SignOutFragmentDirections.actionSignOutFragmentToSignInFragment()
             findNavController().navigate(action)
-        } // TODO show empty label when no chat rooms
+        }
         is SignOutVM.State.OnSignOutError -> {
             showLoading(pbLoading, false)
             UiUtils.showSnackbar(

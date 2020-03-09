@@ -26,11 +26,9 @@ interface FirestoreApi {
 
     fun getMessages(chatRoomId: String): Flow<QuerySnapshot>
 
-    suspend fun addMessage(message: Message, chatRoomId: String)
+    suspend fun addMessage(message: Message, chatRoomId: String) // TODO add encryption
 
     suspend fun deleteChatRoom(chatRoomId: String)
 
     suspend fun editChatRoom(chatRoomId: String, editedChatRoom: ChatRoom)
-
-    // TODO add encryption
 }

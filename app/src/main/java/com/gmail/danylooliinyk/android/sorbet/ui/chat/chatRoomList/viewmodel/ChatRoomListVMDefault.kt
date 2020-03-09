@@ -25,13 +25,18 @@ class ChatRoomListVMDefault(
         val liveData = repository.getChatRooms().asLiveData(
             viewModelScope.coroutineContext + Dispatchers.IO
         )
-        _liveGetChatRoom.addSource(liveData) { value -> _liveGetChatRoom.setValue(value) }
+        _liveGetChatRoom.addSource(liveData) { value -> _liveGetChatRoom.value = value }
     }
 
     override fun addRandomChatRoom() {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             _liveAddChatRoom.value = StateAddChatRoom.OnLoading
-            repository.addRandomChatRoom()
+            try {
+                repository.addRandomChatRoom()
+            } catch (throwable: Throwable) {
+                _liveAddChatRoom.value = StateAddChatRoom.OnGetChatRoomsError(throwable)
+                return@launch
+            }
             _liveAddChatRoom.value = StateAddChatRoom.OnChatRoomAdded
         }
     }

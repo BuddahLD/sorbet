@@ -19,9 +19,14 @@ class SignInVMDefault(
         get() = _liveAnonymousSignIn
 
     override fun anonymousSignIn() {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             _liveAnonymousSignIn.value = State.OnLoading
-            firestoreApi.anonymousSignIn()
+            try {
+                firestoreApi.anonymousSignIn()
+            } catch (throwable: Throwable) {
+                _liveAnonymousSignIn.value = State.OnSignInError(throwable)
+                return@launch
+            }
             _liveAnonymousSignIn.value = State.OnSignInSuccess
         }
     }

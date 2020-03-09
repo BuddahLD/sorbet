@@ -50,7 +50,13 @@ class ChatRoomEditVMDefault(
         viewModelScope.launch {
             _liveChatRoomEdit.value = StateChatRoomEdit.OnLoading
             this@ChatRoomEditVMDefault.currentChatRoom = updatedChatRoom
-            chatRoomRepository.editChatRoom(currentChatRoom.id, updatedChatRoom)
+
+            try {
+                chatRoomRepository.editChatRoom(currentChatRoom.id, updatedChatRoom)
+            } catch (throwable: Throwable) {
+                _liveChatRoomEdit.value = StateChatRoomEdit.OnChatRoomDeleteError(throwable)
+                return@launch
+            }
             _liveChatRoomEdit.value = StateChatRoomEdit.OnChatRoomEditSuccess
         }
     }

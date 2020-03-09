@@ -51,8 +51,6 @@ class ChatRoomRepositoryDefault(
             emit(ChatRoomListVM.StateGetChatRooms.OnGetChatRoomsError(it))
         }
 
-    // TODO catch errors in suspend funcs
-
     override fun getChatRoomsPage(size: Int): Flow<ChatRoomListVM.StateGetChatRooms> {
         throw NotImplementedError("getChatRoomsPage") // We can fetch paged results if needed
     }

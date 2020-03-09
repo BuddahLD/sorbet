@@ -32,6 +32,7 @@
     <!-- Chat room list -->
     <string name="create_new_chat">Create new chat</string>
     <string name="title">Chat rooms</string>
+    <string name="no_chat_rooms_yet">No chat rooms yet.</string>
 
     <!-- Chat room -->
     <string name="message">Type your message</string>

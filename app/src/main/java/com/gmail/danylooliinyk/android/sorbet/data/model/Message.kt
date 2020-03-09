@@ -12,7 +12,7 @@ import java.util.*
 @Parcelize
 data class Message(
     @JvmField
-    @PropertyName("body")
+    @PropertyName("id")
     val id: String = "",
 
     @JvmField
