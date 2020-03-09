@@ -9,10 +9,16 @@ import com.gmail.danylooliinyk.android.sorbet.data.model.ChatRoom
  */
 abstract class ChatRoomEditVM : ViewModel() {
 
-    sealed class StateChatRoomEdit {
-        object OnLoading : StateChatRoomEdit()
-        object OnChatRoomEditSuccess : StateChatRoomEdit()
-        data class OnChatRoomDeleteError(val throwable: Throwable) : StateChatRoomEdit()
+    sealed class StateChatRoomEditName {
+        object OnLoading : StateChatRoomEditName()
+        object OnChatRoomEditNameSuccess : StateChatRoomEditName()
+        data class OnChatRoomEditNameError(val throwable: Throwable) : StateChatRoomEditName()
+    }
+
+    sealed class StateChatRoomEditPicture {
+        object OnLoading : StateChatRoomEditPicture()
+        data class OnChatRoomEditPictureSuccess(val picPath: String) : StateChatRoomEditPicture()
+        data class OnChatRoomEditPictureError(val throwable: Throwable) : StateChatRoomEditPicture()
     }
 
     sealed class StateChatRoomEditing {
@@ -22,8 +28,11 @@ abstract class ChatRoomEditVM : ViewModel() {
 
     abstract var currentChatRoom: ChatRoom
 
-    abstract val liveChatRoomEdit: LiveData<StateChatRoomEdit>
+    abstract val liveChatRoomEditName: LiveData<StateChatRoomEditName>
+    abstract val liveChatRoomEditPicture: LiveData<StateChatRoomEditPicture>
     abstract val liveChatRoomEditing: LiveData<StateChatRoomEditing>
 
-    abstract fun editChatRoom()
+    abstract fun editChatRoomName()
+
+    abstract fun editChatRoomPicture()
 }

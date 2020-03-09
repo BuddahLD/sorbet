@@ -56,7 +56,8 @@ class ChatRoomEditFragment : BaseFragmentBinding(R.layout.fragment_chat_room_edi
 
     override fun initObservers() {
         observe(vm.liveChatRoomEditing, ::onStateChatRoomEditingChanged)
-        observe(vm.liveChatRoomEdit, ::onStateChatRoomEditChanged)
+        observe(vm.liveChatRoomEditName, ::onStateChatRoomEditNameChanged)
+        observe(vm.liveChatRoomEditPicture, ::onStateChatRoomEditPictureChanged)
     }
 
     override fun initViews(view: View, savedInstanceState: Bundle?) {
@@ -78,7 +79,10 @@ class ChatRoomEditFragment : BaseFragmentBinding(R.layout.fragment_chat_room_edi
             }
 
             fabConfirmChanges.setOnClickListener {
-                vm.editChatRoom()
+                vm.editChatRoomName()
+            }
+            civGroupPic.setOnClickListener {
+                vm.editChatRoomPicture()
             }
         }
         setupToolbar()
@@ -105,19 +109,41 @@ class ChatRoomEditFragment : BaseFragmentBinding(R.layout.fragment_chat_room_edi
             }
         }
 
-    private fun onStateChatRoomEditChanged(state: ChatRoomEditVM.StateChatRoomEdit) = when (state) {
-        is ChatRoomEditVM.StateChatRoomEdit.OnLoading -> showLoading(pbLoading, true)
-        is ChatRoomEditVM.StateChatRoomEdit.OnChatRoomEditSuccess -> {
-            showLoading(pbLoading, false)
-            showFabConfirmEdit(false)
+    private fun onStateChatRoomEditNameChanged(state: ChatRoomEditVM.StateChatRoomEditName) =
+        when (state) {
+            is ChatRoomEditVM.StateChatRoomEditName.OnLoading -> showLoading(pbLoading, true)
+            is ChatRoomEditVM.StateChatRoomEditName.OnChatRoomEditNameSuccess -> {
+                showLoading(pbLoading, false)
+                showFabConfirmEdit(false)
+            }
+            is ChatRoomEditVM.StateChatRoomEditName.OnChatRoomEditNameError -> {
+                showLoading(pbLoading, false)
+                UiUtils.showSnackbar(
+                    requireView(),
+                    state.throwable.localizedMessage
+                        ?: "Unhandled error. Contact developer, please."
+                )
+            }
         }
-        is ChatRoomEditVM.StateChatRoomEdit.OnChatRoomDeleteError -> {
-            showLoading(pbLoading, false)
-            UiUtils.showSnackbar(
-                requireView(),
-                state.throwable.localizedMessage
-                    ?: "Unhandled error. Contact developer, please."
-            )
+
+    private fun onStateChatRoomEditPictureChanged(state: ChatRoomEditVM.StateChatRoomEditPicture) {
+        when (state) {
+            is ChatRoomEditVM.StateChatRoomEditPicture.OnLoading -> showLoading(pbLoading, true)
+            is ChatRoomEditVM.StateChatRoomEditPicture.OnChatRoomEditPictureSuccess -> {
+                showLoading(pbLoading, false)
+                Glide.with(this)
+                    .load(state.picPath)
+                    .centerCrop()
+                    .into(civGroupPic)
+            }
+            is ChatRoomEditVM.StateChatRoomEditPicture.OnChatRoomEditPictureError -> {
+                showLoading(pbLoading, false)
+                UiUtils.showSnackbar(
+                    requireView(),
+                    state.throwable.localizedMessage
+                        ?: "Unhandled error. Contact developer, please."
+                )
+            }
         }
     }
 

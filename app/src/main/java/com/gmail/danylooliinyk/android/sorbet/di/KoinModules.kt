@@ -67,5 +67,5 @@ val signOutModule: Module = moduleWithScope(named<SignOutFragment>()) {
 }
 
 val chatRoomEditModule: Module = moduleWithScope(named<ChatRoomEditFragment>()) {
-    viewModel { ChatRoomEditVMDefault(get()) as ChatRoomEditVM }
+    viewModel { ChatRoomEditVMDefault(get(), get()) as ChatRoomEditVM }
 }
