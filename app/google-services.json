@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "273182403078",
+    "firebase_url": "https://sorbet-c0fc7.firebaseio.com",
+    "project_id": "sorbet-c0fc7",
+    "storage_bucket": "sorbet-c0fc7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273182403078:android:142e3582a3b03692973187",
+        "android_client_info": {
+          "package_name": "com.gmail.danylooliinyk.android.sorbet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273182403078-f2m86qqsa3fot0g4bkcv1esua0rln7nv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmail.danylooliinyk.android.sorbet",
+            "certificate_hash": "1041c3750442c546fb2d4c470d9d209bcd0e7c52"
+          }
+        },
+        {
+          "client_id": "273182403078-4mcn0u6rv95f15famm370sdv4f858dek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiMqQW_kijYQ0aGyI4e7uPbIzu37xZmMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273182403078-4mcn0u6rv95f15famm370sdv4f858dek.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
